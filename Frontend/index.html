@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personalized Nutrition Recommendations</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f8f9fa;
+        padding-top: 20px;
+        padding-bottom: 50px;
+      }
+      .container {
+        max-width: 1200px;
+      }
+      .form-container {
+        background-color: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+      }
+      .results-container {
+        background-color: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        display: none;
+      }
+      h1 {
+        color: #2c3e50;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+      h2 {
+        color: #3498db;
+        margin-bottom: 20px;
+      }
+      .form-label {
+        font-weight: 500;
+      }
+      .loading {
+        display: none;
+        text-align: center;
+        margin: 20px 0;
+      }
+      .spinner-border {
+        width: 3rem;
+        height: 3rem;
+      }
+      .meal-section {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+      }
+      .meal-type {
+        font-weight: 600;
+        color: #2c3e50;
+      }
+      .macro-card {
+        background-color: #f8f9fa;
+        border-left: 4px solid #3498db;
+        padding: 15px;
+        margin-bottom: 15px;
+      }
+      .snack-list {
+        list-style-type: circle;
+        padding-left: 20px;
+      }
+      .btn-submit {
+        background-color: #3498db;
+        border: none;
+        padding: 10px 20px;
+      }
+      .btn-submit:hover {
+        background-color: #2980b9;
+      }
+      .error-message {
+        color: #e74c3c;
+        margin-top: 5px;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Personalized Nutrition Recommendations</h1>
+
+      <!-- Input Form -->
+      <div class="form-container">
+        <h2>Enter Patient Information</h2>
+        <form id="patientForm">
+          <div class="row">
+            <!-- Personal Information -->
+            <div class="col-md-4 mb-3">
+              <label for="age" class="form-label">Age</label>
+              <input
+                type="number"
+                class="form-control"
+                id="age"
+                name="age"
+                required
+              />
+              <div class="error-message" id="age-error"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="gender" class="form-label">Gender</label>
+              <select class="form-select" id="gender" name="gender" required>
+                <option value="" disabled selected>Select gender</option>
+              </select>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="height_cm" class="form-label">Height (cm)</label>
+              <input
+                type="number"
+                class="form-control"
+                id="height_cm"
+                name="height_cm"
+                required
+              />
+              <div class="error-message" id="height-error"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="weight_kg" class="form-label">Weight (kg)</label>
+              <input
+                type="number"
+                class="form-control"
+                id="weight_kg"
+                name="weight_kg"
+                required
+              />
+              <div class="error-message" id="weight-error"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="BMI" class="form-label">BMI </label>
+              <input
+                type="number"
+                class="form-control"
+                id="BMI"
+                name="BMI"
+                required
+              />
+              <div class="error-message" id="BMI-error"></div>
+            </div>
+
+            <!-- Health Information -->
+            <div class="col-md-4 mb-3">
+              <label for="chronic_disease" class="form-label"
+                >Chronic Disease</label
+              >
+              <select
+                class="form-select"
+                id="chronic_disease"
+                name="chronic_disease"
+                required
+              >
+                <option value="" disabled selected>
+                  Select chronic disease
+                </option>
+              </select>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="blood_pressure_systolic" class="form-label"
+                >Blood Pressure Systolic</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="blood_pressure_systolic"
+                name="blood_pressure_systolic"
+                required
+              />
+              <div class="error-message" id="bp-systolic-error"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="blood_pressure_diastolic" class="form-label"
+                >Blood Pressure Diastolic</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="blood_pressure_diastolic"
+                name="blood_pressure_diastolic"
+                required
+              />
+              <div class="error-message" id="bp-diastolic-error"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="cholesterol_level" class="form-label"
+                >Cholesterol Level</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="cholesterol_level"
+                name="cholesterol_level"
+                required
+              />
+              <div class="error-message" id="cholesterol-error"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="blood_sugar_level" class="form-label"
+                >Blood Sugar Level</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="blood_sugar_level"
+                name="blood_sugar_level"
+                required
+              />
+              <div class="error-message" id="blood-sugar-error"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="genetic_risk_factor" class="form-label"
+                >Genetic Risk Factor</label
+              >
+              <select
+                class="form-select"
+                id="genetic_risk_factor"
+                name="genetic_risk_factor"
+                required
+              >
+                <option value="" disabled selected>Select option</option>
+              </select>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="allergies" class="form-label">Allergies</label>
+              <select
+                class="form-select"
+                id="allergies"
+                name="allergies"
+                required
+              >
+                <option value="" disabled selected>Select allergies</option>
+              </select>
+            </div>
+
+            <!-- Lifestyle Information -->
+            <div class="col-md-4 mb-3">
+              <label for="daily_steps" class="form-label">Daily Steps</label>
+              <input
+                type="number"
+                class="form-control"
+                id="daily_steps"
+                name="daily_steps"
+                required
+              />
+              <div class="error-message" id="steps-error"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="exercise_frequency" class="form-label"
+                >Exercise Frequency (days/week)</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="exercise_frequency"
+                name="exercise_frequency"
+                required
+              />
+              <div class="error-message" id="exercise-error"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="sleep_hours" class="form-label">Sleep Hours</label>
+              <input
+                type="number"
+                class="form-control"
+                id="sleep_hours"
+                name="sleep_hours"
+                required
+              />
+              <div class="error-message" id="sleep-error"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="alcohol_consumption" class="form-label"
+                >Alcohol Consumption</label
+              >
+              <select
+                class="form-select"
+                id="alcohol_consumption"
+                name="alcohol_consumption"
+                required
+              >
+                <option value="" disabled selected>Select option</option>
+              </select>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="smoking_habit" class="form-label"
+                >Smoking Habit</label
+              >
+              <select
+                class="form-select"
+                id="smoking_habit"
+                name="smoking_habit"
+                required
+              >
+                <option value="" disabled selected>Select option</option>
+              </select>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="dietary_habits" class="form-label"
+                >Dietary Habits</label
+              >
+              <select
+                class="form-select"
+                id="dietary_habits"
+                name="dietary_habits"
+                required
+              >
+                <option value="" disabled selected>
+                  Select dietary habits
+                </option>
+              </select>
+            </div>
+
+            <!-- Nutrition Information -->
+            <div class="col-md-4 mb-3">
+              <label for="caloric_intake" class="form-label"
+                >Current Caloric Intake</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="caloric_intake"
+                name="caloric_intake"
+                required
+              />
+              <div class="error-message" id="calories-error"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="protein_intake" class="form-label"
+                >Current Protein Intake (g)</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="protein_intake"
+                name="protein_intake"
+                required
+              />
+              <div class="error-message" id="protein-error"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="carbohydrate_intake" class="form-label"
+                >Current Carbohydrate Intake (g)</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="carbohydrate_intake"
+                name="carbohydrate_intake"
+                required
+              />
+              <div class="error-message" id="carbs-error"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="fat_intake" class="form-label"
+                >Current Fat Intake (g)</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="fat_intake"
+                name="fat_intake"
+                required
+              />
+              <div class="error-message" id="fat-error"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="preferred_cuisine" class="form-label"
+                >Preferred Cuisine</label
+              >
+              <select
+                class="form-select"
+                id="preferred_cuisine"
+                name="preferred_cuisine"
+                required
+              >
+                <option value="" disabled selected>
+                  Select preferred cuisine
+                </option>
+              </select>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="food_aversions" class="form-label"
+                >Food Aversions</label
+              >
+              <select
+                class="form-select"
+                id="food_aversions"
+                name="food_aversions"
+                required
+              >
+                <option value="" disabled selected>
+                  Select food aversions
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="d-grid gap-2 col-md-6 mx-auto mt-4">
+            <button type="submit" class="btn btn-primary btn-submit">
+              Generate Recommendations
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Loading Indicator -->
+      <div class="loading" id="loading">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2">Generating personalized nutrition recommendations...</p>
+      </div>
+
+      <!-- Results Container -->
+      <div class="results-container" id="results">
+        <h2 class="text-center mb-4">Your Personalized Nutrition Plan</h2>
+
+        <div class="row mb-4">
+          <div class="col-md-12">
+            <div class="alert alert-primary">
+              <h3 class="mb-0" id="mealPlanType">Balanced Diet</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-md-3">
+            <div class="macro-card">
+              <h4>Calories</h4>
+              <p class="h3" id="recommendedCalories">0</p>
+              <small>kcal per day</small>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="macro-card">
+              <h4>Protein</h4>
+              <p class="h3" id="recommendedProtein">0</p>
+              <small>grams per day</small>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="macro-card">
+              <h4>Carbs</h4>
+              <p class="h3" id="recommendedCarbs">0</p>
+              <small>grams per day</small>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="macro-card">
+              <h4>Fats</h4>
+              <p class="h3" id="recommendedFats">0</p>
+              <small>grams per day</small>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="mb-3">Detailed Meal Plan</h3>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <div class="meal-section">
+              <p class="meal-type">Breakfast</p>
+              <p id="breakfast">Loading...</p>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="meal-section">
+              <p class="meal-type">Lunch</p>
+              <p id="lunch">Loading...</p>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="meal-section">
+              <p class="meal-type">Dinner</p>
+              <p id="dinner">Loading...</p>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="meal-section">
+              <p class="meal-type">Snacks</p>
+              <ul class="snack-list" id="snacks">
+                <li>Loading...</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-grid gap-2 col-md-6 mx-auto mt-4">
+          <button type="button" class="btn btn-secondary" id="backToForm">
+            Enter New Patient Information
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // API endpoints
+        const API_BASE_URL = "http://localhost:5000";
+        const FORM_DATA_ENDPOINT = `${API_BASE_URL}/api/form-data`;
+        const RECOMMENDATIONS_ENDPOINT = `${API_BASE_URL}/api/get-recommendations`;
+
+        // DOM elements
+        const patientForm = document.getElementById("patientForm");
+        const loadingIndicator = document.getElementById("loading");
+        const resultsContainer = document.getElementById("results");
+        const backToFormButton = document.getElementById("backToForm");
+
+        // Numeric input fields and their valid ranges
+        let numericRanges = {};
+
+        // Initialize form with dropdown options
+        fetchFormData();
+
+        // Event listeners
+        patientForm.addEventListener("submit", handleFormSubmit);
+        backToFormButton.addEventListener("click", function () {
+          resultsContainer.style.display = "none";
+          document.querySelector(".form-container").style.display = "block";
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+
+        // Add input validation for numeric fields
+        document.querySelectorAll('input[type="number"]').forEach((input) => {
+          input.addEventListener("input", function () {
+            validateNumericInput(this);
+          });
+        });
+
+        // Fetch form data options from API
+        async function fetchFormData() {
+          try {
+            const response = await fetch(FORM_DATA_ENDPOINT);
+            if (!response.ok) {
+              throw new Error("Failed to fetch form data");
+            }
+            const data = await response.json();
+
+            // Populate dropdowns
+            populateDropdown("gender", data.gender);
+            populateDropdown("chronic_disease", data.chronic_disease);
+            populateDropdown("genetic_risk_factor", data.genetic_risk_factor);
+            populateDropdown("allergies", data.allergies);
+            populateDropdown("alcohol_consumption", data.alcohol_consumption);
+            populateDropdown("smoking_habit", data.smoking_habit);
+            populateDropdown("dietary_habits", data.dietary_habits);
+            populateDropdown("preferred_cuisine", data.preferred_cuisine);
+            populateDropdown("food_aversions", data.food_aversions);
+
+            // Save numeric ranges for validation
+            numericRanges = data.numeric_ranges;
+
+            // Add placeholder text with ranges
+            for (const [field, range] of Object.entries(numericRanges)) {
+              const input = document.getElementById(field);
+              if (input) {
+                input.placeholder = `${range[0]}-${range[1]}`;
+
+                // Set min and max attributes
+                input.min = range[0];
+                input.max = range[1];
+              }
+            }
+
+            // Set default values (optional)
+            setDefaultValues();
+          } catch (error) {
+            console.error("Error fetching form data:", error);
+            alert("Failed to load form data. Please refresh the page.");
+          }
+        }
+
+        // Populate dropdown with options
+        function populateDropdown(id, options) {
+          const dropdown = document.getElementById(id);
+          if (!dropdown) return;
+
+          options.forEach((option) => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            dropdown.appendChild(optionElement);
+          });
+        }
+
+        // Set some default values to make testing easier
+        function setDefaultValues() {
+          document.getElementById("age").value = 45;
+          document.getElementById("height_cm").value = 175;
+          document.getElementById("weight_kg").value = 75;
+          document.getElementById("blood_pressure_systolic").value = 120;
+          document.getElementById("blood_pressure_diastolic").value = 80;
+          document.getElementById("cholesterol_level").value = 180;
+          document.getElementById("blood_sugar_level").value = 95;
+          document.getElementById("daily_steps").value = 8000;
+          document.getElementById("exercise_frequency").value = 3;
+          document.getElementById("sleep_hours").value = 7;
+          document.getElementById("caloric_intake").value = 2200;
+          document.getElementById("protein_intake").value = 90;
+          document.getElementById("carbohydrate_intake").value = 240;
+          document.getElementById("fat_intake").value = 70;
+        }
+
+        // Validate numeric input
+        function validateNumericInput(input) {
+          const fieldName = input.id;
+          const errorElement = document.getElementById(
+            `${fieldName.replace("_", "-")}-error`
+          );
+
+          if (!errorElement) return true;
+
+          const value = parseFloat(input.value);
+
+          // Clear previous error
+          errorElement.textContent = "";
+
+          // Check if field has defined ranges
+          if (numericRanges[fieldName]) {
+            const [min, max] = numericRanges[fieldName];
+
+            if (isNaN(value)) {
+              errorElement.textContent = "Please enter a valid number";
+              return false;
+            }
+
+            if (value < min || value > max) {
+              errorElement.textContent = `Value must be between ${min} and ${max}`;
+              return false;
+            }
+          }
+
+          return true;
+        }
+
+        // Validate all form inputs
+        function validateForm() {
+          let isValid = true;
+
+          // Validate numeric inputs
+          document.querySelectorAll('input[type="number"]').forEach((input) => {
+            if (!validateNumericInput(input)) {
+              isValid = false;
+            }
+          });
+
+          return isValid;
+        }
+
+        // Handle form submission
+        async function handleFormSubmit(event) {
+          event.preventDefault();
+
+          if (!validateForm()) {
+            alert("Please correct the errors in the form");
+            return;
+          }
+
+          // Show loading indicator
+          loadingIndicator.style.display = "block";
+          document.querySelector(".form-container").style.display = "none";
+
+          // Collect form data
+          const formData = {};
+          new FormData(patientForm).forEach((value, key) => {
+            formData[key] = isNaN(value) ? value : Number(value);
+          });
+
+          try {
+            // Send request to API
+            const response = await fetch(RECOMMENDATIONS_ENDPOINT, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(formData),
+            });
+
+            if (!response.ok) {
+              throw new Error("Failed to get recommendations");
+            }
+
+            const data = await response.json();
+
+            if (data.success) {
+              displayResults(data.recommendations);
+            } else {
+              throw new Error(data.error || "Unknown error occurred");
+            }
+          } catch (error) {
+            console.error("Error getting recommendations:", error);
+            alert("Failed to generate recommendations. Please try again.");
+            document.querySelector(".form-container").style.display = "block";
+          } finally {
+            loadingIndicator.style.display = "none";
+          }
+        }
+
+        // Display results
+        function displayResults(recommendations) {
+          // Update result elements
+          document.getElementById("mealPlanType").textContent =
+            recommendations.mealPlanType;
+          document.getElementById("recommendedCalories").textContent =
+            recommendations.recommendedCalories;
+          document.getElementById("recommendedProtein").textContent =
+            recommendations.recommendedProtein;
+          document.getElementById("recommendedCarbs").textContent =
+            recommendations.recommendedCarbs;
+          document.getElementById("recommendedFats").textContent =
+            recommendations.recommendedFats;
+
+          const detailedPlan = recommendations.detailedMealPlan;
+          document.getElementById("breakfast").textContent =
+            detailedPlan.breakfast;
+          document.getElementById("lunch").textContent = detailedPlan.lunch;
+          document.getElementById("dinner").textContent = detailedPlan.dinner;
+
+          // Populate snacks
+          const snacksList = document.getElementById("snacks");
+          snacksList.innerHTML = "";
+          detailedPlan.snacks.forEach((snack) => {
+            const li = document.createElement("li");
+            li.textContent = snack;
+            snacksList.appendChild(li);
+          });
+
+          // Show results container
+          resultsContainer.style.display = "block";
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      });
+    </script>
+  </body>
+</html>
