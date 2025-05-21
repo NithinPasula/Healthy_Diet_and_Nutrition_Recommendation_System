@@ -1,0 +1,76 @@
+body {
+  background-color: #f8f9fa;
+  padding-top: 20px;
+  padding-bottom: 50px;
+}
+.container {
+  max-width: 1200px;
+}
+.form-container {
+  background-color: white;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+.results-container {
+  background-color: white;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  display: none;
+}
+h1 {
+  color: #2c3e50;
+  margin-bottom: 30px;
+  text-align: center;
+}
+h2 {
+  color: #3498db;
+  margin-bottom: 20px;
+}
+.form-label {
+  font-weight: 500;
+}
+.loading {
+  display: none;
+  text-align: center;
+  margin: 20px 0;
+}
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+.meal-section {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+.meal-type {
+  font-weight: 600;
+  color: #2c3e50;
+}
+.macro-card {
+  background-color: #f8f9fa;
+  border-left: 4px solid #3498db;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+.snack-list {
+  list-style-type: circle;
+  padding-left: 20px;
+}
+.btn-submit {
+  background-color: #3498db;
+  border: none;
+  padding: 10px 20px;
+}
+.btn-submit:hover {
+  background-color: #2980b9;
+}
+.error-message {
+  color: #e74c3c;
+  margin-top: 5px;
+  font-size: 0.9rem;
+}

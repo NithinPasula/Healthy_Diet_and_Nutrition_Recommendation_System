@@ -17,7 +17,7 @@ np.random.seed(random.randint(1, 10000))
 tf.random.set_seed(random.randint(1, 10000))
 
 # Load and preprocess dataset
-df = pd.read_csv('Database/patient.csv')
+df = pd.read_csv('../Database/patient.csv')
 
 # Define features and targets
 categorical_features = ['Gender', 'Chronic_Disease', 'Genetic_Risk_Factor',
@@ -142,6 +142,18 @@ meal_plans = {
             'lunch': 'Grilled shrimp bowl with black beans and corn',
             'dinner': 'Turkey meatballs with zucchini noodles',
             'snacks': ['Protein bar', 'Smoked salmon on cucumber slices', 'Beef jerky']
+        },
+        {
+            'breakfast': 'Paneer and spinach scramble with whole wheat toast',
+            'lunch': 'Lentil and chickpea salad with quinoa and olive oil dressing',
+            'dinner': 'Grilled tofu steak with sautéed veggies and brown rice',
+            'snacks': ['Greek yogurt', 'Protein smoothie', 'Roasted chickpeas']
+        },
+        {
+            'breakfast': 'Oats with almond milk, chia seeds, and banana',
+            'lunch': 'Quinoa and black bean salad with avocado dressing',
+            'dinner': 'Grilled tofu and vegetable stir-fry with brown rice',
+            'snacks': ['Fruit smoothie with plant-based protein', 'Roasted chickpeas', 'Carrot sticks with hummus']
         }
     ],
     'Low-Carb Diet': [
@@ -162,9 +174,33 @@ meal_plans = {
             'lunch': 'Chicken caesar salad (no croutons)',
             'dinner': 'Zucchini boats stuffed with ground turkey and cheese',
             'snacks': ['Guacamole with bell pepper slices', 'Macadamia nuts', 'Pepperoni slices']
+        },
+        {
+            'breakfast': 'Tofu scramble with avocado and cherry tomatoes',
+            'lunch': 'Zucchini noodles with pesto and grilled paneer',
+            'dinner': 'Cauliflower rice stir-fry with broccoli and bell peppers',
+            'snacks': ['Boiled eggs', 'Roasted chickpeas', 'Greek yogurt with cucumber']
+        },
+        {
+            'breakfast': 'Oats with almond milk, chia seeds, and banana',
+            'lunch': 'Quinoa and black bean salad with avocado dressing',
+            'dinner': 'Grilled tofu and vegetable stir-fry with brown rice',
+            'snacks': ['Fruit smoothie with plant-based protein', 'Roasted chickpeas', 'Carrot sticks with hummus']
         }
     ],
     'Balanced Diet': [
+        {
+            'breakfast': 'Scrambled eggs with whole grain toast and orange juice',
+            'lunch': 'Grilled chicken wrap with mixed greens and hummus',
+            'dinner': 'Fish curry with brown rice and sautéed vegetables',
+            'snacks': ['Boiled egg', 'Cheese cubes', 'Yogurt with fruit']
+        },
+        {
+            'breakfast': 'Omelette with mushrooms and turkey, side of fruit salad',
+            'lunch': 'Beef stew with vegetables and quinoa',
+            'dinner': 'Baked tilapia with roasted sweet potatoes',
+            'snacks': ['Protein bar', 'Greek yogurt', 'Nuts']
+        },
         {
             'breakfast': 'Oatmeal with banana, cinnamon, and walnuts',
             'lunch': 'Quinoa bowl with roasted vegetables and chickpeas',
@@ -182,9 +218,27 @@ meal_plans = {
             'lunch': 'Lentil soup with whole grain bread',
             'dinner': 'Stir-fried tofu with mixed vegetables and brown rice',
             'snacks': ['Orange slices', 'Mixed nuts', 'Rice cakes with avocado']
+        },
+        {
+            'breakfast': 'Oats with almond milk, chia seeds, and banana',
+            'lunch': 'Quinoa and black bean salad with avocado dressing',
+            'dinner': 'Grilled tofu and vegetable stir-fry with brown rice',
+            'snacks': ['Fruit smoothie with plant-based protein', 'Roasted chickpeas', 'Carrot sticks with hummus']
         }
     ],
     'Low-Fat Diet': [
+        {
+            'breakfast': 'Scrambled egg whites with tomatoes and whole grain toast',
+            'lunch': 'Grilled chicken salad with lemon vinaigrette',
+            'dinner': 'Steamed cod with mixed vegetables and brown rice',
+            'snacks': ['Low-fat string cheese', 'Boiled egg', 'Apple slices']
+        },
+        {
+            'breakfast': 'Oatmeal with skim milk and berries',
+            'lunch': 'Turkey breast sandwich on whole wheat with lettuce and tomato',
+            'dinner': 'Baked salmon with steamed broccoli and sweet potato',
+            'snacks': ['Greek yogurt', 'Rice cakes with almond butter', 'Hard-boiled eggs']
+        },
         {
             'breakfast': 'Greek yogurt with honey, walnuts, and fresh figs',
             'lunch': 'Lentil salad with feta, cucumber, and tomatoes',
@@ -202,11 +256,58 @@ meal_plans = {
             'lunch': 'Tabbouleh salad with grilled chicken',
             'dinner': 'Baked salmon with quinoa and roasted Mediterranean vegetables',
             'snacks': ['Almonds and dried apricots', 'Greek yogurt with honey', 'Whole grain crackers with hummus']
+        },
+        {
+            'breakfast': 'Oats with almond milk, chia seeds, and banana',
+            'lunch': 'Quinoa and black bean salad with avocado dressing',
+            'dinner': 'Grilled tofu and vegetable stir-fry with brown rice',
+            'snacks': ['Fruit smoothie with plant-based protein', 'Roasted chickpeas', 'Carrot sticks with hummus']
         }
     ]
 }
 
 # Generate recommendations
+
+def filter_meals(meals, dietary_habits, allergies, aversions):
+    filtered = []
+    prefer_nonveg = (dietary_habits.lower() == 'regular')
+    for meal in meals:
+        text = f"{meal['breakfast']} {meal['lunch']} {meal['dinner']} {' '.join(meal['snacks'])}".lower()
+        if prefer_nonveg:
+        # Try to skip strictly vegetarian meals
+          if all(veg_word in text for veg_word in ['lentil', 'chickpea', 'vegetable', 'salad', 'tofu']) and \
+           not any(nonveg_word in text for nonveg_word in ['chicken', 'fish', 'turkey', 'egg', 'beef', 'shrimp']):
+            continue
+
+        if dietary_habits.lower() == "vegetarian":
+            if any(non_veg in text for non_veg in ['chicken', 'fish', 'salmon', 'beef', 'turkey', 'shrimp', 'pork', 'bacon', 'pepperoni']):
+                continue
+        elif dietary_habits.lower() == "vegan":
+            if any(animal in text for animal in ['egg', 'milk', 'cheese', 'yogurt', 'chicken', 'beef', 'fish', 'butter', 'honey', 'paneer','turkey', 'shrimp', 'bacon', 'salmon', 'lamb']):
+                continue
+
+        if allergies.lower() == "nuts":
+            if any(nut in text for nut in ['almond', 'walnut', 'nuts', 'cashew', 'peanut']):
+                continue
+        elif allergies.lower() == "dairy":
+            if any(dairy in text for dairy in ['milk', 'cheese', 'yogurt', 'butter']):
+                continue
+        elif allergies.lower() == "gluten":
+            if any(gluten in text for gluten in ['bread', 'pasta', 'cracker', 'toast', 'grain']):
+                continue
+
+        if aversions.lower() == "spicy":
+            if "spicy" in text:
+                continue
+        elif aversions.lower() == "sweet":
+            if any(sugar in text for sugar in ['honey', 'syrup', 'sweet']):
+                continue
+        elif aversions.lower() == "sour":
+            if "sour" in text:
+                continue
+
+        filtered.append(meal)
+    return filtered
 def make_varied_recommendations(patient_data, nn_model, preprocessor, meal_plans, label_encoder, temperature=0.8):
     patient_df = pd.DataFrame([patient_data])
     patient_preprocessed = preprocessor.transform(patient_df)
@@ -227,15 +328,22 @@ def make_varied_recommendations(patient_data, nn_model, preprocessor, meal_plans
     carbs = float(carbs[0][0]) * (1 + np.random.uniform(-noise_factor, noise_factor))
     fats = float(fats[0][0]) * (1 + np.random.uniform(-noise_factor, noise_factor))
 
-    calories = max(1500, min(3500, calories))  # Adjusted minimum to 1500 kcal
+    calories = max(1500, min(3500, calories))
     protein = max(50, min(200, protein))
     carbs = max(50, min(400, carbs))
     fats = max(20, min(150, fats))
+    filtered_meals = filter_meals(
+        meal_plans[meal_plan],
+        patient_data['Dietary_Habits'],
+        patient_data['Allergies'],
+        patient_data['Food_Aversions']
+    )
 
-    if meal_plan not in meal_plans:
-        print(f"Warning: Predicted meal plan '{meal_plan}' not in meal_plans. Defaulting to Balanced Diet.")
-        meal_plan = 'Balanced Diet'
-    detailed_plan = random.choice(meal_plans[meal_plan])
+    if not filtered_meals:
+        print("No filtered meals matched preferences. Falling back to unfiltered list.")
+        detailed_plan = random.choice(meal_plans[meal_plan])
+    else:
+        detailed_plan = random.choice(filtered_meals)
 
     return {
         'Meal Plan Type': meal_plan,
@@ -246,8 +354,6 @@ def make_varied_recommendations(patient_data, nn_model, preprocessor, meal_plans
         'Detailed Meal Plan': detailed_plan
     }
 
-# Validate and get user input
-# Validate and get user input
 def get_user_input():
     print("\n== Enter Patient Information ==\n(Enter values within the specified ranges)")
     default_patient = {

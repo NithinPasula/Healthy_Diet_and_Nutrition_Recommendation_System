@@ -1,0 +1,235 @@
+document.addEventListener("DOMContentLoaded", function () {
+  // API endpoints
+  const API_BASE_URL = "http://localhost:5000"; // Ensure this matches your backend API URL
+  const FORM_DATA_ENDPOINT = `${API_BASE_URL}/api/form-data`;
+  const RECOMMENDATIONS_ENDPOINT = `${API_BASE_URL}/api/get-recommendations`;
+
+  // DOM elements
+  const patientForm = document.getElementById("patientForm");
+  const loadingIndicator = document.getElementById("loading");
+  const resultsContainer = document.getElementById("results");
+  const backToFormButton = document.getElementById("backToForm");
+
+  // Numeric input fields and their valid ranges
+  let numericRanges = {};
+
+  // Initialize form with dropdown options
+  fetchFormData();
+
+  // Event listeners
+  patientForm.addEventListener("submit", handleFormSubmit);
+  backToFormButton.addEventListener("click", function () {
+    resultsContainer.style.display = "none";
+    document.querySelector(".form-container").style.display = "block";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  // Add input validation for numeric fields
+  document.querySelectorAll('input[type="number"]').forEach((input) => {
+    input.addEventListener("input", function () {
+      validateNumericInput(this);
+    });
+  });
+
+  // Fetch form data options from API
+  async function fetchFormData() {
+    try {
+      const response = await fetch(FORM_DATA_ENDPOINT);
+      if (!response.ok) {
+        throw new Error("Failed to fetch form data");
+      }
+      const data = await response.json();
+
+      // Populate dropdowns
+      populateDropdown("gender", data.gender);
+      populateDropdown("chronic_disease", data.chronic_disease);
+      populateDropdown("genetic_risk_factor", data.genetic_risk_factor);
+      populateDropdown("allergies", data.allergies);
+      populateDropdown("alcohol_consumption", data.alcohol_consumption);
+      populateDropdown("smoking_habit", data.smoking_habit);
+      populateDropdown("dietary_habits", data.dietary_habits);
+      populateDropdown("preferred_cuisine", data.preferred_cuisine);
+      populateDropdown("food_aversions", data.food_aversions);
+
+      // Save numeric ranges for validation
+      numericRanges = data.numeric_ranges;
+
+      // Add placeholder text with ranges
+      for (const [field, range] of Object.entries(numericRanges)) {
+        const input = document.getElementById(field);
+        if (input) {
+          input.placeholder = `${range[0]}-${range[1]}`;
+
+          // Set min and max attributes
+          input.min = range[0];
+          input.max = range[1];
+        }
+      }
+
+      // Set default values (optional)
+      setDefaultValues();
+    } catch (error) {
+      console.error("Error fetching form data:", error);
+      alert("Failed to load form data. Please refresh the page.");
+    }
+  }
+
+  // Populate dropdown with options
+  function populateDropdown(id, options) {
+    const dropdown = document.getElementById(id);
+    if (!dropdown) return;
+
+    options.forEach((option) => {
+      const optionElement = document.createElement("option");
+      optionElement.value = option;
+      optionElement.textContent = option;
+      dropdown.appendChild(optionElement);
+    });
+  }
+
+  // Set some default values to make testing easier
+  function setDefaultValues() {
+    document.getElementById("age").value = 45;
+    document.getElementById("height_cm").value = 175;
+    document.getElementById("weight_kg").value = 75;
+    document.getElementById("blood_pressure_systolic").value = 120;
+    document.getElementById("blood_pressure_diastolic").value = 80;
+    document.getElementById("cholesterol_level").value = 180;
+    document.getElementById("blood_sugar_level").value = 95;
+    document.getElementById("daily_steps").value = 8000;
+    document.getElementById("exercise_frequency").value = 3;
+    document.getElementById("sleep_hours").value = 7;
+    document.getElementById("caloric_intake").value = 2200;
+    document.getElementById("protein_intake").value = 90;
+    document.getElementById("carbohydrate_intake").value = 240;
+    document.getElementById("fat_intake").value = 70;
+  }
+
+  // Validate numeric input
+  function validateNumericInput(input) {
+    const fieldName = input.id;
+    const errorElement = document.getElementById(
+      `${fieldName.replace("_", "-")}-error`
+    );
+
+    if (!errorElement) return true;
+
+    const value = parseFloat(input.value);
+
+    // Clear previous error
+    errorElement.textContent = "";
+
+    // Check if field has defined ranges
+    if (numericRanges[fieldName]) {
+      const [min, max] = numericRanges[fieldName];
+
+      if (isNaN(value)) {
+        errorElement.textContent = "Please enter a valid number";
+        return false;
+      }
+
+      if (value < min || value > max) {
+        errorElement.textContent = `Value must be between ${min} and ${max}`;
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  // Validate all form inputs
+  function validateForm() {
+    let isValid = true;
+
+    // Validate numeric inputs
+    document.querySelectorAll('input[type="number"]').forEach((input) => {
+      if (!validateNumericInput(input)) {
+        isValid = false;
+      }
+    });
+
+    return isValid;
+  }
+
+  // Handle form submission
+  async function handleFormSubmit(event) {
+    event.preventDefault();
+
+    if (!validateForm()) {
+      alert("Please correct the errors in the form");
+      return;
+    }
+
+    // Show loading indicator
+    loadingIndicator.style.display = "block";
+    document.querySelector(".form-container").style.display = "none";
+
+    // Collect form data
+    const formData = {};
+    new FormData(patientForm).forEach((value, key) => {
+      formData[key] = isNaN(value) ? value : Number(value);
+    });
+
+    try {
+      // Send request to API
+      const response = await fetch(RECOMMENDATIONS_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to get recommendations");
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        displayResults(data.recommendations);
+      } else {
+        throw new Error(data.error || "Unknown error occurred");
+      }
+    } catch (error) {
+      console.error("Error getting recommendations:", error);
+      alert("Failed to generate recommendations. Please try again.");
+      document.querySelector(".form-container").style.display = "block";
+    } finally {
+      loadingIndicator.style.display = "none";
+    }
+  }
+
+  // Display results
+  function displayResults(recommendations) {
+    // Update result elements
+    document.getElementById("mealPlanType").textContent =
+      recommendations.mealPlanType;
+    document.getElementById("recommendedCalories").textContent =
+      recommendations.recommendedCalories;
+    document.getElementById("recommendedProtein").textContent =
+      recommendations.recommendedProtein;
+    document.getElementById("recommendedCarbs").textContent =
+      recommendations.recommendedCarbs;
+    document.getElementById("recommendedFats").textContent =
+      recommendations.recommendedFats;
+
+    const detailedPlan = recommendations.detailedMealPlan;
+    document.getElementById("breakfast").textContent = detailedPlan.breakfast;
+    document.getElementById("lunch").textContent = detailedPlan.lunch;
+    document.getElementById("dinner").textContent = detailedPlan.dinner;
+
+    // Populate snacks
+    const snacksList = document.getElementById("snacks");
+    snacksList.innerHTML = "";
+    detailedPlan.snacks.forEach((snack) => {
+      const li = document.createElement("li");
+      li.textContent = snack;
+      snacksList.appendChild(li);
+    });
+
+    // Show results container
+    resultsContainer.style.display = "block";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+});
