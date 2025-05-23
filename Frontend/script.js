@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   // API endpoints
-  const API_BASE_URL = "http://localhost:5000"; // Ensure this matches your backend API URL
+  const API_BASE_URL = "http://localhost:5000";
   const FORM_DATA_ENDPOINT = `${API_BASE_URL}/api/form-data`;
   const RECOMMENDATIONS_ENDPOINT = `${API_BASE_URL}/api/get-recommendations`;
 
