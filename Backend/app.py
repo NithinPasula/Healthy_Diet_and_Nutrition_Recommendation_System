@@ -423,21 +423,15 @@ def get_recommendations():
 @app.route('/api/user-history', methods=['GET'])
 def get_user_history():
     try:
-        user_id = request.args.get('user_id')
-        
-        if not user_id:
-            return jsonify({"success": False, "error": "User ID is required"})
-        
         if db is None:
             return jsonify({"success": False, "error": "Database connection not available"})
         
-        # Get user recommendations history
+        # Get all recommendations from all users
         recommendations = list(recommendations_collection.find(
-            {"user_id": user_id},
-            {"_id": 0} # Exclude MongoDB _id field from results
-        ).sort("timestamp", -1))  # Sort by newest first
+            {},  # No filtering
+            {"_id": 0}
+        ).sort("timestamp", -1))
         
-        # Convert datetime objects to strings for JSON serialization
         for rec in recommendations:
             rec["timestamp"] = rec["timestamp"].isoformat()
         
@@ -445,6 +439,7 @@ def get_user_history():
     
     except Exception as e:
         return jsonify({"success": False, "error": str(e)})
+
 
 @app.route('/api/form-data', methods=['GET'])
 def get_form_data():
@@ -457,7 +452,7 @@ def get_form_data():
         "alcohol_consumption": ["Yes", "No"],
         "smoking_habit": ["Yes", "No"],
         "dietary_habits": ["Regular", "Vegetarian", "Vegan"],
-        "preferred_cuisine": ["Mediterranean", "Italian", "Indian", "American"],
+        "preferred_cuisine": ["Mediterranean", "Asian", "Indian", "Western"],
         "food_aversions": ["None", "Spicy", "Sweet", "Sour"],
         "numeric_ranges": {
             "age": [18, 100],

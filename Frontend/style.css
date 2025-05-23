@@ -2,75 +2,145 @@ body {
   background-color: #f8f9fa;
   padding-top: 20px;
   padding-bottom: 50px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
 }
+
 .container {
   max-width: 1200px;
+  padding: 0 20px;
 }
-.form-container {
-  background-color: white;
-  border-radius: 10px;
-  padding: 30px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
-}
+
+.form-container,
 .results-container {
   background-color: white;
   border-radius: 10px;
   padding: 30px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  transition: all 0.3s ease-in-out;
+}
+
+.results-container {
   display: none;
 }
+
+.results-container.show {
+  display: block;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 h1 {
   color: #2c3e50;
   margin-bottom: 30px;
   text-align: center;
 }
+
 h2 {
   color: #3498db;
   margin-bottom: 20px;
 }
+
 .form-label {
   font-weight: 500;
 }
+
 .loading {
   display: none;
   text-align: center;
   margin: 20px 0;
 }
+
 .spinner-border {
   width: 3rem;
   height: 3rem;
 }
+
 .meal-section {
   background-color: #f8f9fa;
   border-radius: 8px;
   padding: 15px;
   margin-bottom: 15px;
+  transition: all 0.3s ease-in-out;
 }
+
 .meal-type {
   font-weight: 600;
   color: #2c3e50;
 }
+
 .macro-card {
   background-color: #f8f9fa;
   border-left: 4px solid #3498db;
   padding: 15px;
   margin-bottom: 15px;
+  transition: all 0.3s ease-in-out;
 }
+
 .snack-list {
   list-style-type: circle;
   padding-left: 20px;
 }
+
 .btn-submit {
   background-color: #3498db;
   border: none;
   padding: 10px 20px;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: all 0.3s ease-in-out;
 }
+
 .btn-submit:hover {
   background-color: #2980b9;
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
+
 .error-message {
   color: #e74c3c;
   margin-top: 5px;
   font-size: 0.9rem;
+}
+
+#historyList li .meal-section {
+  background-color: #f4f6f8;
+  padding: 10px 15px;
+  border-radius: 6px;
+  margin-top: 10px;
+}
+
+.recommendation-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  margin-bottom: 20px;
+  border-left: 4px solid #2ecc71;
+  transition: all 0.3s ease-in-out;
+}
+
+.badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background-color: #ecf0f1;
+  color: #2c3e50;
+  margin-right: 5px;
 }

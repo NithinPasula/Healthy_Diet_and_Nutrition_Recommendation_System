@@ -9,6 +9,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const loadingIndicator = document.getElementById("loading");
   const resultsContainer = document.getElementById("results");
   const backToFormButton = document.getElementById("backToForm");
+  const historyButton = document.getElementById("viewHistory");
+  const historyContainer = document.getElementById("historyContainer");
+  const historyList = document.getElementById("historyList");
 
   // Numeric input fields and their valid ranges
   let numericRanges = {};
@@ -20,6 +23,8 @@ document.addEventListener("DOMContentLoaded", function () {
   patientForm.addEventListener("submit", handleFormSubmit);
   backToFormButton.addEventListener("click", function () {
     resultsContainer.style.display = "none";
+    // Hide history when going back to form
+    historyContainer.style.display = "none";
     document.querySelector(".form-container").style.display = "block";
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
@@ -160,6 +165,9 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
+    // Hide history when generating new recommendations
+    historyContainer.style.display = "none";
+
     // Show loading indicator
     loadingIndicator.style.display = "block";
     document.querySelector(".form-container").style.display = "none";
@@ -232,4 +240,111 @@ document.addEventListener("DOMContentLoaded", function () {
     resultsContainer.style.display = "block";
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
+
+  // Handle view history button click
+  historyButton.addEventListener("click", async () => {
+    // Toggle history visibility
+    if (historyContainer.style.display === "block") {
+      historyContainer.style.display = "none";
+      historyButton.textContent = "View All Past Recommendations";
+      return;
+    }
+
+    try {
+      // Update button text to show loading state
+      const originalText = historyButton.textContent;
+      historyButton.textContent = "Loading History...";
+      historyButton.disabled = true;
+
+      const response = await fetch(`${API_BASE_URL}/api/user-history`);
+      const data = await response.json();
+
+      historyList.innerHTML = ""; // Clear old results
+
+      if (data.success) {
+        if (data.history.length === 0) {
+          historyList.innerHTML =
+            "<li class='list-group-item'>No past recommendations found.</li>";
+        } else {
+          data.history.forEach((item, index) => {
+            const li = document.createElement("li");
+            li.classList.add("list-group-item");
+            const utcDate = new Date(item.timestamp);
+            const istOffset = 5.5 * 60 * 60 * 1000; // 5.5 hours in milliseconds
+            const istDate = new Date(utcDate.getTime() + istOffset);
+
+            // Format IST time as a readable string
+            const formattedTime = istDate.toLocaleString("en-GB", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: true,
+            });
+
+            li.innerHTML = `
+              <div class="d-flex justify-content-between align-items-center">
+                <strong>Recommendation #${index + 1}</strong>
+                <small class="text-muted">${formattedTime}</small>
+              </div>
+              <div class="mt-2">
+                <p><em>${item.recommendations.mealPlanType}</em></p>
+                <p><strong>Calories:</strong> ${
+                  item.recommendations.recommendedCalories
+                }, 
+                  <strong>Protein:</strong> ${
+                    item.recommendations.recommendedProtein
+                  }g, 
+                  <strong>Carbs:</strong> ${
+                    item.recommendations.recommendedCarbs
+                  }g, 
+                  <strong>Fats:</strong> ${
+                    item.recommendations.recommendedFats
+                  }g</p>
+                <div class="meal-section">
+                  <p><strong>Breakfast:</strong> ${
+                    item.recommendations.detailedMealPlan.breakfast
+                  }</p>
+                  <p><strong>Lunch:</strong> ${
+                    item.recommendations.detailedMealPlan.lunch
+                  }</p>
+                  <p><strong>Dinner:</strong> ${
+                    item.recommendations.detailedMealPlan.dinner
+                  }</p>
+                  <p><strong>Snacks:</strong></p>
+                  <ul class="snack-list">
+                    ${item.recommendations.detailedMealPlan.snacks
+                      .map((snack) => `<li>${snack}</li>`)
+                      .join("")}
+                  </ul>
+                </div>
+              </div>
+            `;
+            historyList.appendChild(li);
+          });
+        }
+
+        historyContainer.style.display = "block";
+        historyButton.textContent = "Hide Past Recommendations";
+
+        // Scroll to history section
+        setTimeout(() => {
+          window.scrollTo({
+            top: historyContainer.offsetTop - 20,
+            behavior: "smooth",
+          });
+        }, 100);
+      } else {
+        alert("Failed to fetch history: " + data.error);
+        historyButton.textContent = originalText;
+      }
+    } catch (err) {
+      console.error("Error fetching history:", err);
+      alert("Error loading history");
+      historyButton.textContent = "View All Past Recommendations";
+    } finally {
+      historyButton.disabled = false;
+    }
+  });
 });
