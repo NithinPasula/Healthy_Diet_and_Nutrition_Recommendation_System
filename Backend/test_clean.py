@@ -12,14 +12,11 @@ import random
 import os
 import pickle
 
-# For reproducibility with controlled randomness
 np.random.seed(random.randint(1, 10000))
 tf.random.set_seed(random.randint(1, 10000))
 
-# Load and preprocess dataset
 df = pd.read_csv('../Database/patient.csv')
 
-# Define features and targets
 categorical_features = ['Gender', 'Chronic_Disease', 'Genetic_Risk_Factor',
                         'Allergies', 'Alcohol_Consumption', 'Smoking_Habit',
                         'Dietary_Habits', 'Preferred_Cuisine', 'Food_Aversions']
@@ -34,13 +31,11 @@ target_carbs = 'Recommended_Carbs'
 target_fats = 'Recommended_Fats'
 target_meal_plan = 'Recommended_Meal_Plan'
 
-# Handle missing data
 for col in categorical_features:
     df[col] = df[col].fillna('None')
 for col in numerical_features:
     df[col] = df[col].fillna(df[col].median())
 
-# Preprocessing pipeline
 numeric_transformer = Pipeline(steps=[('scaler', StandardScaler())])
 categorical_transformer = Pipeline(steps=[('onehot', OneHotEncoder(handle_unknown='ignore'))])
 preprocessor = ColumnTransformer(
@@ -49,12 +44,12 @@ preprocessor = ColumnTransformer(
         ('cat', categorical_transformer, categorical_features)
     ])
 
-# Encode meal plans
+
 label_encoder = LabelEncoder()
 df['Meal_Plan_Encoded'] = label_encoder.fit_transform(df[target_meal_plan])
 meal_plan_classes = label_encoder.classes_
 
-# Split data
+
 X = df[numerical_features + categorical_features]
 y_calories = df[target_calories]
 y_protein = df[target_protein]
@@ -66,12 +61,10 @@ y_carbs_train, y_carbs_test, y_fats_train, y_fats_test, \
 y_meal_plan_train, y_meal_plan_test = train_test_split(
     X, y_calories, y_protein, y_carbs, y_fats, y_meal_plan, test_size=0.2, random_state=42)
 
-# Preprocess features
 X_train_preprocessed = preprocessor.fit_transform(X_train)
 X_test_preprocessed = preprocessor.transform(X_test)
 input_shape = X_train_preprocessed.shape[1]
 
-# Neural network model
 def build_nn_model():
     inputs = Input(shape=(input_shape,))
     x = Dense(128, activation='relu')(inputs)
@@ -122,7 +115,6 @@ def build_nn_model():
     )
     return model
 
-# Define meal plans (aligned with dataset categories)
 meal_plans = {
     'High-Protein Diet': [
         {
@@ -266,7 +258,6 @@ meal_plans = {
     ]
 }
 
-# Generate recommendations
 
 def filter_meals(meals, dietary_habits, allergies, aversions):
     filtered = []
@@ -274,7 +265,6 @@ def filter_meals(meals, dietary_habits, allergies, aversions):
     for meal in meals:
         text = f"{meal['breakfast']} {meal['lunch']} {meal['dinner']} {' '.join(meal['snacks'])}".lower()
         if prefer_nonveg:
-        # Try to skip strictly vegetarian meals
           if all(veg_word in text for veg_word in ['lentil', 'chickpea', 'vegetable', 'salad', 'tofu']) and \
            not any(nonveg_word in text for nonveg_word in ['chicken', 'fish', 'turkey', 'egg', 'beef', 'shrimp']):
             continue
@@ -376,7 +366,7 @@ def get_user_input():
         'Preferred_Cuisine': ['Mediterranean', 'Italian', 'Indian', 'American'],
         'Food_Aversions': ['None', 'Spicy', 'Sweet', 'Sour']
     }
-    # Define acceptable ranges for all numerical features
+    
     numeric_ranges = {
         'Age': (18, 100),
         'Height_cm': (100, 250),
@@ -397,7 +387,6 @@ def get_user_input():
     patient = {}
     for key, default in default_patient.items():
         while True:
-            # Build prompt without default values
             if key in numeric_ranges:
                 low, high = numeric_ranges[key]
                 prompt = f"{key} ({low}-{high}): "
@@ -408,12 +397,11 @@ def get_user_input():
                 prompt = f"{key}: "
 
             value = input(prompt).strip()
-            # Use default if empty
             if not value:
                 patient[key] = default
                 break
 
-            # Validate numerical inputs
+            
             if key in numerical_features:
                 try:
                     value = float(value)
@@ -421,7 +409,7 @@ def get_user_input():
                     if low is not None and not (low <= value <= high):
                         print(f"{key} must be between {low} and {high}.")
                         continue
-                    # Additional specific checks
+                    
                     if key == 'Age' and not (18 <= value <= 100):
                         print("Age must be between 18 and 100.")
                         continue
@@ -429,7 +417,7 @@ def get_user_input():
                     break
                 except ValueError:
                     print(f"{key} must be a number.")
-            # Validate categorical inputs
+
             else:
                 if value in valid_categorical.get(key, [value]):
                     patient[key] = value
@@ -437,12 +425,12 @@ def get_user_input():
                 print(f"Invalid {key}. Choose from: {valid_categorical[key]}")
     return patient
 
-# Load or train model
+
 model_file = 'nutrition_model_v2.pkl'
 old_model_file = 'nutrition_model.pkl'
 use_pretrained = False
 
-# Force retraining if nutrition_model_v2.pkl doesn't exist
+
 if os.path.exists(model_file):
     choice = input("\nUse pretrained model (p) or retrain (r)? [p/r]: ").lower()
     if choice == 'p':
@@ -462,7 +450,7 @@ if use_pretrained:
         model_data = pickle.load(f)
         nn_model = model_from_json(model_data['architecture'])
         nn_model.set_weights(model_data['weights'])
-        # Handle old .pkl format lacking preprocessor and label_encoder
+
         if 'preprocessor' in model_data and 'label_encoder' in model_data:
             preprocessor = model_data['preprocessor']
             label_encoder = model_data['label_encoder']
@@ -520,7 +508,7 @@ else:
     with open(model_file, 'wb') as f:
         pickle.dump(model_data, f)
 
-# Interactive recommendation loop
+
 while True:
     try_another = input("\nGenerate recommendation for a patient? (y/n): ").lower()
     if try_another != 'y':

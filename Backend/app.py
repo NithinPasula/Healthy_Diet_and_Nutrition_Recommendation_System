@@ -11,17 +11,17 @@ import os
 from dotenv import load_dotenv
 import uuid
 
-# Load environment variables
+
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app)  
 
-# MongoDB configuration
+
 MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
 DB_NAME = os.getenv("DB_NAME", "nutrition_recommender")
 
-# Initialize MongoDB client
+
 try:
     mongo_client = MongoClient(MONGO_URI)
     db = mongo_client[DB_NAME]
@@ -32,7 +32,7 @@ except Exception as e:
     print(f"Error connecting to MongoDB: {e}")
     db = None
 
-# Load the saved model
+
 model_file = 'nutrition_model_v2.pkl'
 try:
     with open(model_file, 'rb') as f:
@@ -63,7 +63,7 @@ try:
 except Exception as e:
     print(f"Error loading model: {e}")
 
-# Define meal plans (aligned with dataset categories)
+
 meal_plans = {
     'High-Protein Diet': [
         {
@@ -207,7 +207,7 @@ meal_plans = {
     ]
 }
 
-#Remove this
+
 def filter_meals(meals, dietary_habits, allergies, aversions):
     filtered = []
     prefer_nonveg = (dietary_habits.lower() == 'regular')
@@ -248,7 +248,7 @@ def filter_meals(meals, dietary_habits, allergies, aversions):
 
     return filtered
 
-# Generate recommendations
+
 def make_varied_recommendations(patient_data, temperature=0.8):
     patient_df = pd.DataFrame([patient_data])
     patient_preprocessed = preprocessor.transform(patient_df)
@@ -269,7 +269,7 @@ def make_varied_recommendations(patient_data, temperature=0.8):
     carbs = float(carbs[0][0]) * (1 + np.random.uniform(-noise_factor, noise_factor))
     fats = float(fats[0][0]) * (1 + np.random.uniform(-noise_factor, noise_factor))
 
-    calories = max(1500, min(3500, calories))  # Adjusted minimum to 1500 kcal
+    calories = max(1500, min(3500, calories))  
     protein = max(50, min(200, protein))
     carbs = max(50, min(400, carbs))
     fats = max(20, min(150, fats))
@@ -278,7 +278,7 @@ def make_varied_recommendations(patient_data, temperature=0.8):
         print(f"Warning: Predicted meal plan '{meal_plan}' not in meal_plans. Defaulting to Balanced Diet.")
         meal_plan = 'Balanced Diet'
 
-    # 🔁 Apply dietary filtering logic
+    
     filtered_meals = filter_meals(
         meal_plans[meal_plan],
         patient_data['Dietary_Habits'],
@@ -302,17 +302,17 @@ def make_varied_recommendations(patient_data, temperature=0.8):
     }
 
 
-# Save user data and recommendations to MongoDB
+
 def save_to_mongodb(user_data, recommendations):
     if db is None:
         print("MongoDB connection not available. Data not saved.")
         return None
     
     try:
-        # Generate a unique user ID if not provided
+        
         user_id = user_data.get('user_id', str(uuid.uuid4()))
         
-        # Save user data
+        
         user_document = {
             'user_id': user_id,
             'timestamp': datetime.now(),
@@ -350,14 +350,14 @@ def save_to_mongodb(user_data, recommendations):
             }
         }
         
-        # Insert or update user data
+        
         users_collection.update_one(
             {'user_id': user_id},
             {'$set': user_document},
             upsert=True
         )
         
-        # Save recommendation
+        
         recommendation_document = {
             'user_id': user_id,
             'timestamp': datetime.now(),
@@ -376,13 +376,13 @@ def get_recommendations():
     try:
         data = request.json
         
-        # Calculate BMI
+        
         height_m = data['height_cm'] / 100
         weight_kg = data['weight_kg']
         bmi = weight_kg / (height_m * height_m)
         data['bmi'] = round(bmi, 1)
         
-        # Create patient data in the format expected by the model
+        
         patient_data = {
             'Age': data['age'],
             'Gender': data['gender'],
@@ -412,7 +412,7 @@ def get_recommendations():
         
         recommendations = make_varied_recommendations(patient_data)
         
-        # Save data to MongoDB
+        
         save_to_mongodb(data, recommendations)
         
         return jsonify({"success": True, "recommendations": recommendations})
@@ -426,9 +426,9 @@ def get_user_history():
         if db is None:
             return jsonify({"success": False, "error": "Database connection not available"})
         
-        # Get all recommendations from all users
+        
         recommendations = list(recommendations_collection.find(
-            {},  # No filtering
+            {},  
             {"_id": 0}
         ).sort("timestamp", -1))
         
@@ -443,7 +443,6 @@ def get_user_history():
 
 @app.route('/api/form-data', methods=['GET'])
 def get_form_data():
-    # Return valid options for form dropdowns
     return jsonify({
         "gender": ["Male", "Female", "Other"],
         "chronic_disease": ["None", "Diabetes", "Hypertension", "Heart Disease"],
@@ -474,5 +473,4 @@ def get_form_data():
     })
 
 if __name__ == '__main__':
-    # app.run(debug=True, port=5000)
     app.run(host='0.0.0.0', debug=True, port=5000)

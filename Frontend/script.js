@@ -1,10 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // API endpoints
   const API_BASE_URL = "http://localhost:5000";
   const FORM_DATA_ENDPOINT = `${API_BASE_URL}/api/form-data`;
   const RECOMMENDATIONS_ENDPOINT = `${API_BASE_URL}/api/get-recommendations`;
 
-  // DOM elements
   const patientForm = document.getElementById("patientForm");
   const loadingIndicator = document.getElementById("loading");
   const resultsContainer = document.getElementById("results");
@@ -13,30 +11,24 @@ document.addEventListener("DOMContentLoaded", function () {
   const historyContainer = document.getElementById("historyContainer");
   const historyList = document.getElementById("historyList");
 
-  // Numeric input fields and their valid ranges
   let numericRanges = {};
 
-  // Initialize form with dropdown options
   fetchFormData();
 
-  // Event listeners
   patientForm.addEventListener("submit", handleFormSubmit);
   backToFormButton.addEventListener("click", function () {
     resultsContainer.style.display = "none";
-    // Hide history when going back to form
     historyContainer.style.display = "none";
     document.querySelector(".form-container").style.display = "block";
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
-  // Add input validation for numeric fields
   document.querySelectorAll('input[type="number"]').forEach((input) => {
     input.addEventListener("input", function () {
       validateNumericInput(this);
     });
   });
 
-  // Fetch form data options from API
   async function fetchFormData() {
     try {
       const response = await fetch(FORM_DATA_ENDPOINT);
@@ -45,7 +37,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       const data = await response.json();
 
-      // Populate dropdowns
       populateDropdown("gender", data.gender);
       populateDropdown("chronic_disease", data.chronic_disease);
       populateDropdown("genetic_risk_factor", data.genetic_risk_factor);
@@ -56,22 +47,17 @@ document.addEventListener("DOMContentLoaded", function () {
       populateDropdown("preferred_cuisine", data.preferred_cuisine);
       populateDropdown("food_aversions", data.food_aversions);
 
-      // Save numeric ranges for validation
       numericRanges = data.numeric_ranges;
 
-      // Add placeholder text with ranges
       for (const [field, range] of Object.entries(numericRanges)) {
         const input = document.getElementById(field);
         if (input) {
           input.placeholder = `${range[0]}-${range[1]}`;
-
-          // Set min and max attributes
           input.min = range[0];
           input.max = range[1];
         }
       }
 
-      // Set default values (optional)
       setDefaultValues();
     } catch (error) {
       console.error("Error fetching form data:", error);
@@ -79,7 +65,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Populate dropdown with options
   function populateDropdown(id, options) {
     const dropdown = document.getElementById(id);
     if (!dropdown) return;
@@ -92,7 +77,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Set some default values to make testing easier
   function setDefaultValues() {
     document.getElementById("age").value = 45;
     document.getElementById("height_cm").value = 175;
@@ -110,7 +94,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("fat_intake").value = 70;
   }
 
-  // Validate numeric input
   function validateNumericInput(input) {
     const fieldName = input.id;
     const errorElement = document.getElementById(
@@ -121,10 +104,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const value = parseFloat(input.value);
 
-    // Clear previous error
     errorElement.textContent = "";
 
-    // Check if field has defined ranges
     if (numericRanges[fieldName]) {
       const [min, max] = numericRanges[fieldName];
 
@@ -142,11 +123,8 @@ document.addEventListener("DOMContentLoaded", function () {
     return true;
   }
 
-  // Validate all form inputs
   function validateForm() {
     let isValid = true;
-
-    // Validate numeric inputs
     document.querySelectorAll('input[type="number"]').forEach((input) => {
       if (!validateNumericInput(input)) {
         isValid = false;
@@ -156,7 +134,6 @@ document.addEventListener("DOMContentLoaded", function () {
     return isValid;
   }
 
-  // Handle form submission
   async function handleFormSubmit(event) {
     event.preventDefault();
 
@@ -165,21 +142,17 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // Hide history when generating new recommendations
     historyContainer.style.display = "none";
 
-    // Show loading indicator
     loadingIndicator.style.display = "block";
     document.querySelector(".form-container").style.display = "none";
 
-    // Collect form data
     const formData = {};
     new FormData(patientForm).forEach((value, key) => {
       formData[key] = isNaN(value) ? value : Number(value);
     });
 
     try {
-      // Send request to API
       const response = await fetch(RECOMMENDATIONS_ENDPOINT, {
         method: "POST",
         headers: {
@@ -208,9 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Display results
   function displayResults(recommendations) {
-    // Update result elements
     document.getElementById("mealPlanType").textContent =
       recommendations.mealPlanType;
     document.getElementById("recommendedCalories").textContent =
@@ -227,7 +198,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("lunch").textContent = detailedPlan.lunch;
     document.getElementById("dinner").textContent = detailedPlan.dinner;
 
-    // Populate snacks
     const snacksList = document.getElementById("snacks");
     snacksList.innerHTML = "";
     detailedPlan.snacks.forEach((snack) => {
@@ -236,14 +206,11 @@ document.addEventListener("DOMContentLoaded", function () {
       snacksList.appendChild(li);
     });
 
-    // Show results container
     resultsContainer.style.display = "block";
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  // Handle view history button click
   historyButton.addEventListener("click", async () => {
-    // Toggle history visibility
     if (historyContainer.style.display === "block") {
       historyContainer.style.display = "none";
       historyButton.textContent = "View All Past Recommendations";
@@ -251,7 +218,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     try {
-      // Update button text to show loading state
       const originalText = historyButton.textContent;
       historyButton.textContent = "Loading History...";
       historyButton.disabled = true;
@@ -259,7 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const response = await fetch(`${API_BASE_URL}/api/user-history`);
       const data = await response.json();
 
-      historyList.innerHTML = ""; // Clear old results
+      historyList.innerHTML = "";
 
       if (data.success) {
         if (data.history.length === 0) {
@@ -270,10 +236,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const li = document.createElement("li");
             li.classList.add("list-group-item");
             const utcDate = new Date(item.timestamp);
-            const istOffset = 5.5 * 60 * 60 * 1000; // 5.5 hours in milliseconds
+            const istOffset = 5.5 * 60 * 60 * 1000;
             const istDate = new Date(utcDate.getTime() + istOffset);
 
-            // Format IST time as a readable string
             const formattedTime = istDate.toLocaleString("en-GB", {
               day: "2-digit",
               month: "short",
@@ -328,7 +293,6 @@ document.addEventListener("DOMContentLoaded", function () {
         historyContainer.style.display = "block";
         historyButton.textContent = "Hide Past Recommendations";
 
-        // Scroll to history section
         setTimeout(() => {
           window.scrollTo({
             top: historyContainer.offsetTop - 20,
