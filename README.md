@@ -68,7 +68,7 @@ http://localhost:3000
 * **Database:** MongoDB
 * **Machine Learning:** TensorFlow/Keras, Multi-output Neural Network
 * **Containerization:** Docker & Docker Compose
-* **Dataset Source:** Personalized Medical Diet Recommendations Dataset
+* **Dataset Source:** https://www.kaggle.com/datasets/ziya07/personalized-medical-diet-recommendations-dataset
 
 ## **🧠 Machine Learning Model**
 
