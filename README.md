@@ -10,9 +10,9 @@ This project provides a personalized nutrition experience using a **Multi-output
 
 ## **📁 Repository Structure**
 
-* `frontend/` – Contains the HTML5 + JavaScript frontend application with Bootstrap styling.
-* `backend/` – Contains the FastAPI backend server logic and neural network recommendation engine.
-* `database/` – Contains the dataset. MongoDB configuration and endpoints are managed in Backend/app.py.
+* `Frontend/` – Contains the HTML5 + JavaScript frontend application with Bootstrap styling.
+* `Backend/` – Contains the FastAPI backend server logic and neural network recommendation engine.
+* `Database/` – Contains the dataset. MongoDB configuration and endpoints are managed in Backend/app.py.
 
 ## **⚙️ Installation & User Manual**
 
@@ -27,10 +27,10 @@ cd Healthy_Diet_and_Nutrition_Recommendation_System
 ```
 
 2. **Create a `.env` File in Backend**
-   * Navigate to the `backend` directory:
+   * Navigate to the `Backend` directory:
 
 ```bash
-cd backend
+cd Backend
 ```
 
    * Create a file named `.env` with the following configuration:
