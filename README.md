@@ -12,7 +12,7 @@ This project provides a personalized nutrition experience using a **Multi-output
 
 * `frontend/` – Contains the HTML5 + JavaScript frontend application with Bootstrap styling.
 * `backend/` – Contains the FastAPI backend server logic and neural network recommendation engine.
-* `database/` – Holds configuration related to MongoDB and data storage.
+* `database/` – Contains the dataset. MongoDB configuration and endpoints are managed in Backend/app.py.
 
 ## **⚙️ Installation & User Manual**
 
