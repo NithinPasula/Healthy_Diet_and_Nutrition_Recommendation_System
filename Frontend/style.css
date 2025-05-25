@@ -109,6 +109,10 @@ h3 {
   height: 3rem;
 }
 
+.results-container {
+  display: none;
+}
+
 .results-container.show {
   display: block;
   animation: fadeIn 0.6s ease-in-out;

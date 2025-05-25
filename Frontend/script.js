@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   patientForm.addEventListener("submit", handleFormSubmit);
   backToFormButton.addEventListener("click", function () {
-    resultsContainer.style.display = "none";
+    resultsContainer.classList.remove("show");
     historyContainer.style.display = "none";
     document.querySelector(".form-container").style.display = "block";
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function () {
       snacksList.appendChild(li);
     });
 
-    resultsContainer.style.display = "block";
+    resultsContainer.classList.add("show");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
