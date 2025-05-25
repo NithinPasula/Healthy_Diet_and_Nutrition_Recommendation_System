@@ -26,35 +26,14 @@ git clone https://github.com/NithinPasula/Healthy_Diet_and_Nutrition_Recommendat
 cd Healthy_Diet_and_Nutrition_Recommendation_System
 ```
 
-2. **Create a `.env` File in Backend**
-   * Navigate to the `Backend` directory:
-
-```bash
-cd Backend
-```
-
-   * Create a file named `.env` with the following configuration:
-
-```
-MONGO_URI=mongodb://mongo:27017
-DB_NAME=nutrition_recommender
-```
-
-3. **Return to Root Directory**
-   * Navigate back to the root directory of the project:
-
-```bash
-cd ..
-```
-
-4. **Start the Application**
+2. **Start the Application**
    * Run the containerized application using Docker Compose:
 
 ```bash
 docker compose up --build
 ```
 
-5. **Access the Application**
+3. **Access the Application**
    * Visit the following URL in your browser to start using the system:
 
 ```
