@@ -1,75 +1,144 @@
-# Personalized Nutrition & Diet Recommendation System
 
-This repository hosts the official implementation of the **Personalized Nutrition & Diet Recommendation System** that provides customized meal plans and nutritional recommendations using advanced machine learning techniques.
+<h1 align="center">🍽️ Personalized Nutrition & Diet Recommendation System</h1>
+<p align="center">
+  This repository hosts the official implementation of the Personalized Nutrition & Diet Recommendation System that provides customized meal plans and nutritional recommendations using advanced machine learning techniques.
+</p>
 
-Created by **Pasula Nithin** 📧 22e55a0510@hitam.org
+<p align="center">
+  <img src="https://img.shields.io/badge/Frontend-HTML%20%7C%20JS%20%7C%20Bootstrap-blue?style=flat-square" />
+  <img src="https://img.shields.io/badge/Backend-FastAPI-green?style=flat-square" />
+  <img src="https://img.shields.io/badge/Database-MongoDB-brightgreen?style=flat-square" />
+  <img src="https://img.shields.io/badge/ML-TensorFlow%20%7C%20Keras-orange?style=flat-square" />
+  <img src="https://img.shields.io/badge/Container-Docker-blue?style=flat-square" />
+</p>
 
-## 📌 Project Overview
+---
 
-This project provides a personalized nutrition experience using a **Multi-output Feedforward Neural Network** to dynamically match user health profiles with optimal dietary recommendations. It is designed to deliver real-time, adaptive meal plans and macronutrient targets based on individual physiological attributes, medical history, and lifestyle factors.
+## 📖 Overview
 
-## 📁 Repository Structure
+**Personalized Nutrition & Diet Recommendation System** is an intelligent dietary assistant that dynamically generates personalized meal plans and nutritional targets based on a user's physiological data, medical history, and lifestyle habits. 
 
-* `Frontend/` – Contains the HTML5 + JavaScript frontend application with Bootstrap styling.
-* `Backend/` – Contains the FastAPI backend server logic and neural network recommendation engine.
-* `Database/` – Contains the dataset. MongoDB configuration and endpoints are managed in Backend/app.py.
+It leverages a **multi-output feedforward neural network** to deliver real-time, adaptive recommendations.
 
-## 📋 Prerequisites
+> 👨‍💻 Developed by **Pasula Nithin**  
+> 📧 [22e55a0510@hitam.org](mailto:22e55a0510@hitam.org)
 
-Before running the project, ensure you have the following installed on your system:
+---
 
-* **Docker Desktop** - Download and install from [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
-* **Docker Compose** - Included with Docker Desktop installation
-* **Git** - For cloning the repository
+## 🧠 Key Features
 
-## ⚙️ Installation & User Manual
+- 🎯 Tailored meal plans & macro recommendations
+- 🧬 Machine learning–based prediction engine
+- ⚡ FastAPI backend integrated with TensorFlow
+- 🖥️ Responsive HTML5 + Bootstrap frontend
+- 🐳 Fully containerized using Docker
 
-Follow the steps below to install and run the project locally:
+---
 
-1. **Clone the Repository**
-   * Clone the repository and navigate to the project directory:
+## 📁 Project Structure
+
+```bash
+📦 Healthy_Diet_and_Nutrition_Recommendation_System
+├── Frontend/         # UI built with HTML5, JavaScript & Bootstrap
+├── Backend/          # FastAPI logic + ML model implementation
+├── Database/         # Dataset, MongoDB config & backend DB routes
+```
+
+---
+
+## 🛠️ Prerequisites
+
+Ensure the following tools are installed on your system:
+
+- ✅ [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- ✅ Docker Compose (bundled with Docker Desktop)
+- ✅ [Git](https://git-scm.com/)
+
+---
+
+## 🚀 Getting Started
+
+### 🔁 Step 1: Clone the Repository
 
 ```bash
 git clone https://github.com/NithinPasula/Healthy_Diet_and_Nutrition_Recommendation_System.git
 cd Healthy_Diet_and_Nutrition_Recommendation_System
 ```
 
-2. **Start the Application**
-   * Run the containerized application using Docker Compose:
+### 🛠 Step 2: Start the Application
 
 ```bash
 docker compose up --build
 ```
 
-3. **Access the Application**
-   * Visit the following URL in your browser to start using the system:
+### 🌐 Step 3: Access the System
+
+Visit the following URL in your browser:
 
 ```
 http://localhost:3000
 ```
 
-## 📦 Tech Stack
+---
 
-* **Frontend:** HTML5 + Vanilla JavaScript + Bootstrap 5
-* **Backend:** Python (FastAPI)
-* **Database:** MongoDB
-* **Machine Learning:** TensorFlow/Keras, Multi-output Neural Network
-* **Containerization:** Docker & Docker Compose
-* **Dataset Source:** https://www.kaggle.com/datasets/ziya07/personalized-medical-diet-recommendations-dataset
+## 🧬 Machine Learning Model
 
-## 🧠 Machine Learning Model
+- **Model Type:** Multi-output Feedforward Neural Network  
+- **Architecture:** Shared hidden layers with branched outputs  
+- **Predicted Outputs:**  
+  - 🥗 Recommended Meal Category  
+  - 🔢 Macronutrient Targets: Calories, Carbs, Protein, Fats  
+- **Input Parameters:**  
+  - 20+ features: age, gender, health conditions, allergies, preferences, activity level, etc.
 
-* **Model Type:** Multi-output Feedforward Neural Network
-* **Architecture:** Shared hidden layers with separate output branches
-* **Outputs:** Meal plan classification + Nutritional targets (calories, protein, carbs, fats)
-* **Input Features:** 20+ health and lifestyle parameters including demographics, health metrics, lifestyle factors, and dietary preferences
+---
 
-## 🚧 Project Status
+## 💻 Tech Stack
 
-This project is a complete, containerized solution ready for deployment. The system successfully generates personalized nutrition recommendations based on comprehensive user health profiles.
+| Layer        | Technologies Used                            |
+|--------------|-----------------------------------------------|
+| 🎨 Frontend  | HTML5, JavaScript, Bootstrap 5                |
+| ⚙️ Backend   | Python, FastAPI                               |
+| 🧠 ML Engine | TensorFlow, Keras                             |
+| 🗃 Database   | MongoDB                                       |
+| 📦 DevOps    | Docker & Docker Compose                       |
+
+---
+
+## 🗃 MongoDB Access
+
+To view personalized diet recommendations directly from the MongoDB database, connect with the following URI:
+
+```
+mongodb://localhost:27018/
+```
+
+You can use tools like MongoDB Compass or Mongo shell to inspect the data.
+
+---
+
+## 📌 Dataset Source
+
+Dataset used for training is publicly available at:  
+🔗 [Kaggle - Personalized Medical Diet Dataset](https://www.kaggle.com/datasets/ziya07/personalized-medical-diet-recommendations-dataset)
+
+---
+
+## 📈 Project Status
+
+✅ MVP Complete  
+✅ ML Model Integrated  
+✅ Containerized for easy deployment  
+✅ Ready for production & future upgrades
+
+---
 
 ## 📬 Contact
 
-For any queries or further information, feel free to reach out:
+Have questions or want to collaborate?
 
-**Pasula Nithin** 📧 22e55a0510@hitam.org
+**Pasula Nithin**  
+📧 [22e55a0510@hitam.org](mailto:22e55a0510@hitam.org)  
+🔗 [GitHub Profile](https://github.com/NithinPasula)
+
+---
