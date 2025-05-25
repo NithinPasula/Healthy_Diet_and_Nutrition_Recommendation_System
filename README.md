@@ -14,6 +14,13 @@ This project provides a personalized nutrition experience using a **Multi-output
 * `Backend/` – Contains the FastAPI backend server logic and neural network recommendation engine.
 * `Database/` – Contains the dataset. MongoDB configuration and endpoints are managed in Backend/app.py.
 
+📋 Prerequisites
+Before running the project, ensure you have the following installed on your system:
+
+Docker Desktop - Download and install from https://www.docker.com/products/docker-desktop/
+Docker Compose - Included with Docker Desktop installation
+Git - For cloning the repository
+
 ## **⚙️ Installation & User Manual**
 
 Follow the steps below to install and run the project locally:
