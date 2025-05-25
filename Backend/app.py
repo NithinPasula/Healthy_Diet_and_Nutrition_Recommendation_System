@@ -95,7 +95,38 @@ meal_plans = {
             'lunch': 'Quinoa and black bean salad with avocado dressing',
             'dinner': 'Grilled tofu and vegetable stir-fry with brown rice',
             'snacks': ['Fruit smoothie with plant-based protein', 'Roasted chickpeas', 'Carrot sticks with hummus']
+        },
+        {
+            'breakfast': 'Cottage cheese pancakes with fresh strawberries',
+            'lunch': 'Grilled chicken thighs with wild rice and roasted Brussels sprouts',
+            'dinner': 'Pan-seared halibut with quinoa pilaf and green beans',
+            'snacks': ['Turkey roll-ups with cheese', 'Pumpkin seeds', 'Chocolate protein pudding']
+        },
+        {
+            'breakfast': 'Hemp seed smoothie bowl with banana and coconut flakes',
+            'lunch': 'Tempeh and vegetable curry with brown rice',
+            'dinner': 'Grilled portobello mushrooms stuffed with quinoa and herbs',
+            'snacks': ['Pea protein smoothie', 'Sunflower seed butter on celery', 'Nutritional yeast popcorn']
+        },
+        {
+            'breakfast': 'Chia pudding with almond milk and fresh mango',
+            'lunch': 'Black bean and sweet potato bowl with tahini dressing',
+            'dinner': 'Lentil walnut bolognese with zucchini noodles',
+            'snacks': ['Plant-based protein bar', 'Spirulina smoothie', 'Roasted pumpkin seeds']
+        },
+        {
+            'breakfast': 'Quinoa breakfast bowl with nuts and dried fruit',
+            'lunch': 'Three-bean chili with cornbread',
+            'dinner': 'Stuffed bell peppers with lentils and brown rice',
+            'snacks': ['Almond butter energy balls', 'Green smoothie with spinach', 'Trail mix with seeds']
+        },
+        {
+            'breakfast': 'Protein-rich overnight oats with chia and hemp hearts',
+            'lunch': 'Chickpea tikka masala with basmati rice',
+            'dinner': 'Grilled eggplant with tahini sauce and quinoa tabbouleh',
+            'snacks': ['Homemade granola with nuts', 'Coconut yogurt with berries', 'Roasted edamame']
         }
+
     ],
     'Low-Carb Diet': [
         {
@@ -127,6 +158,36 @@ meal_plans = {
             'lunch': 'Quinoa and black bean salad with avocado dressing',
             'dinner': 'Grilled tofu and vegetable stir-fry with brown rice',
             'snacks': ['Fruit smoothie with plant-based protein', 'Roasted chickpeas', 'Carrot sticks with hummus']
+        },
+        {
+            'breakfast': 'Smoked salmon with cream cheese and cucumber slices',
+            'lunch': 'Greek salad with grilled lamb and olive oil',
+            'dinner': 'Pork tenderloin with roasted radishes and herbs',
+            'snacks': ['Brie cheese with olives', 'Avocado with sea salt', 'Prosciutto-wrapped asparagus']
+        },
+        {
+            'breakfast': 'Coconut flour pancakes with sugar-free syrup',
+            'lunch': 'Tuna-stuffed bell peppers with mixed greens',
+            'dinner': 'Herb-crusted chicken thighs with cauliflower mash',
+            'snacks': ['Cheese crisps', 'Cucumber boats with tuna salad', 'Hard-boiled egg with everything seasoning']
+        },
+        {
+            'breakfast': 'Almond flour muffins with cream cheese frosting',
+            'lunch': 'Cauliflower rice bowl with grilled vegetables and tahini',
+            'dinner': 'Stuffed mushrooms with spinach and cashew cream',
+            'snacks': ['Kale chips', 'Avocado chocolate mousse', 'Coconut butter fat bombs']
+        },
+        {
+            'breakfast': 'Green smoothie with avocado and coconut milk',
+            'lunch': 'Zucchini lasagna with cashew ricotta',
+            'dinner': 'Cauliflower steaks with herb oil and roasted vegetables',
+            'snacks': ['Coconut yogurt with nuts', 'Cucumber with almond butter', 'Seaweed snacks']
+        },
+        {
+            'breakfast': 'Chia seed breakfast pudding with coconut cream',
+            'lunch': 'Shiitake mushroom and spinach salad with hemp seeds',
+            'dinner': 'Grilled tempeh with sautéed bok choy and sesame oil',
+            'snacks': ['Macadamia nut butter on celery', 'Coconut chips', 'Avocado and lime smoothie']
         }
     ],
     'Balanced Diet': [
@@ -165,6 +226,30 @@ meal_plans = {
             'lunch': 'Quinoa and black bean salad with avocado dressing',
             'dinner': 'Grilled tofu and vegetable stir-fry with brown rice',
             'snacks': ['Fruit smoothie with plant-based protein', 'Roasted chickpeas', 'Carrot sticks with hummus']
+        },
+        {
+            'breakfast': 'French toast with fresh berries and maple syrup',
+            'lunch': 'Grilled portobello burger with sweet potato fries',
+            'dinner': 'Herb-roasted chicken with wild rice and roasted carrots',
+            'snacks': ['Banana with almond butter', 'Whole grain muffin', 'Cherry tomatoes with mozzarella']
+        },
+        {
+            'breakfast': 'Breakfast burrito with scrambled eggs and vegetables',
+            'lunch': 'Buddha bowl with quinoa, roasted vegetables, and tahini',
+            'dinner': 'Baked cod with herb-roasted potatoes and steamed broccoli',
+            'snacks': ['Fruit and nut bar', 'Veggie chips with guacamole', 'Greek yogurt parfait']
+        },
+        {
+            'breakfast': 'Buckwheat pancakes with fresh fruit compote',
+            'lunch': 'Falafel wrap with cucumber yogurt sauce',
+            'dinner': 'Mushroom and barley risotto with side salad',
+            'snacks': ['Date and oat energy balls', 'Vegetable smoothie', 'Whole grain crackers with cheese']
+        },
+        {
+            'breakfast': 'Acai bowl with granola and coconut flakes',
+            'lunch': 'Quinoa-stuffed bell peppers with black beans',
+            'dinner': 'Grilled vegetables with polenta and fresh herbs',
+            'snacks': ['Fresh fruit salad', 'Hummus with veggie sticks', 'Coconut yogurt with granola']
         }
     ],
     'Low-Fat Diet': [
@@ -203,6 +288,30 @@ meal_plans = {
             'lunch': 'Quinoa and black bean salad with avocado dressing',
             'dinner': 'Grilled tofu and vegetable stir-fry with brown rice',
             'snacks': ['Fruit smoothie with plant-based protein', 'Roasted chickpeas', 'Carrot sticks with hummus']
+        },
+        {
+            'breakfast': 'Steel-cut oats with cinnamon and fresh apple',
+            'lunch': 'Grilled chicken breast with quinoa and steamed vegetables',
+            'dinner': 'Baked white fish with herbs and roasted root vegetables',
+            'snacks': ['Fresh berries', 'Rice cakes with tomato', 'Fat-free yogurt with fruit']
+        },
+        {
+            'breakfast': 'Egg white frittata with vegetables and herbs',
+            'lunch': 'Turkey and vegetable soup with whole grain roll',
+            'dinner': 'Steamed salmon with lemon and dill, quinoa, and asparagus',
+            'snacks': ['Air-popped popcorn', 'Sliced cucumber with herbs', 'Fresh orange segments']
+        },
+        {
+            'breakfast': 'Smoothie with banana, berries, and fat-free yogurt',
+            'lunch': 'Vegetable barley soup with crusty bread',
+            'dinner': 'Grilled vegetables with herbs and balsamic reduction',
+            'snacks': ['Baked apple with cinnamon', 'Vegetable juice', 'Rice cakes with cucumber']
+        },
+        {
+            'breakfast': 'Overnight oats with fresh fruit and cinnamon',
+            'lunch': 'Lentil and vegetable curry with brown rice',
+            'dinner': 'Roasted vegetable medley with quinoa and fresh herbs',
+            'snacks': ['Fresh fruit smoothie', 'Vegetable broth with herbs', 'Baked sweet potato chips']
         }
     ]
 }
