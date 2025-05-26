@@ -125,6 +125,12 @@ meal_plans = {
             'lunch': 'Chickpea tikka masala with basmati rice',
             'dinner': 'Grilled eggplant with tahini sauce and quinoa tabbouleh',
             'snacks': ['Homemade granola with nuts', 'Coconut yogurt with berries', 'Roasted edamame']
+        },
+        {
+            'breakfast': 'Tofu scramble with spinach and whole grain toast',
+            'lunch': 'Lentil loaf with mashed cauliflower and kale',
+            'dinner': 'Tempeh stir-fry with broccoli and brown rice',
+            'snacks': ['Roasted edamame', 'Chickpea protein balls', 'Vegan protein smoothie']
         }
 
     ],
@@ -188,7 +194,14 @@ meal_plans = {
             'lunch': 'Shiitake mushroom and spinach salad with hemp seeds',
             'dinner': 'Grilled tempeh with sautéed bok choy and sesame oil',
             'snacks': ['Macadamia nut butter on celery', 'Coconut chips', 'Avocado and lime smoothie']
+        },
+        {
+            'breakfast': 'Chia pudding with unsweetened almond milk and flaxseeds',
+            'lunch': 'Zucchini noodles with tofu and cashew pesto',
+            'dinner': 'Stuffed bell peppers with cauliflower rice and lentils',
+            'snacks': ['Avocado slices with lime', 'Seaweed salad', 'Celery sticks with almond butter']
         }
+
     ],
     'Balanced Diet': [
         {
@@ -250,7 +263,14 @@ meal_plans = {
             'lunch': 'Quinoa-stuffed bell peppers with black beans',
             'dinner': 'Grilled vegetables with polenta and fresh herbs',
             'snacks': ['Fresh fruit salad', 'Hummus with veggie sticks', 'Coconut yogurt with granola']
+        },
+        {
+            'breakfast': 'Overnight oats with almond milk, chia seeds, and fresh berries',
+            'lunch': 'Quinoa salad with black beans, corn, and avocado',
+            'dinner': 'Stuffed eggplant with couscous and herbs',
+            'snacks': ['Fruit salad', 'Carrot sticks with hummus', 'Nuts and seeds mix']
         }
+
     ],
     'Low-Fat Diet': [
         {
@@ -312,6 +332,12 @@ meal_plans = {
             'lunch': 'Lentil and vegetable curry with brown rice',
             'dinner': 'Roasted vegetable medley with quinoa and fresh herbs',
             'snacks': ['Fresh fruit smoothie', 'Vegetable broth with herbs', 'Baked sweet potato chips']
+        },
+        {
+            'breakfast': 'Fruit smoothie with spinach, banana, and oat milk',
+            'lunch': 'Vegetable soup with lentils and herbs',
+            'dinner': 'Steamed tofu with sautéed greens and brown rice',
+            'snacks': ['Apple slices', 'Cucumber sticks', 'Air-popped popcorn']
         }
     ]
 }
@@ -325,9 +351,7 @@ def filter_meals(meals, dietary_habits, allergies, aversions):
         text = f"{meal['breakfast']} {meal['lunch']} {meal['dinner']} {' '.join(meal['snacks'])}".lower()
 
         if prefer_nonveg:
-            if all(veg_word in text for veg_word in ['lentil', 'chickpea', 'vegetable', 'salad', 'tofu']) and \
-               not any(nonveg_word in text for nonveg_word in ['chicken', 'fish', 'turkey', 'egg', 'beef', 'shrimp']):
-                continue
+            pass
 
         if dietary_habits.lower() == "vegetarian":
             if any(non_veg in text for non_veg in ['chicken', 'fish', 'salmon', 'beef', 'turkey', 'shrimp', 'pork']):
@@ -369,8 +393,39 @@ def make_varied_recommendations(patient_data, temperature=0.8):
     meal_plan_probs = np.exp(meal_plan_probs)
     meal_plan_probs = meal_plan_probs / np.sum(meal_plan_probs)
 
-    meal_plan_idx = np.random.choice(len(meal_plan_probs), p=meal_plan_probs)
-    meal_plan = label_encoder.classes_[meal_plan_idx]
+    allowed_meal_plans = {}
+    for plan_name, meals in meal_plans.items():
+        filtered = filter_meals(meals, patient_data['Dietary_Habits'], 'None', 'None')
+        if filtered:
+            allowed_meal_plans[plan_name] = filtered
+
+    if not allowed_meal_plans:
+        print("No allowed meal plans found based on diet. Defaulting to Balanced Diet.")
+        allowed_meal_plans = {'Balanced Diet': meal_plans['Balanced Diet']}
+
+    available_labels = [plan for plan in label_encoder.classes_ if plan in allowed_meal_plans]
+    if not available_labels:
+        available_labels = list(allowed_meal_plans.keys())
+
+    available_indices = [i for i, cls in enumerate(label_encoder.classes_) if cls in available_labels]
+    available_probs = [meal_plan_probs[i] for i in available_indices]
+
+    if not available_indices or not available_probs or len(available_probs) != len(available_indices):
+        print("No valid indices or mismatched probabilities. Defaulting to Balanced Diet.")
+        meal_plan = 'Balanced Diet'
+    else:
+        total_prob = sum(available_probs)
+        if total_prob == 0:
+            available_probs = [1 / len(available_probs)] * len(available_probs)
+        else:
+            available_probs = [p / total_prob for p in available_probs]
+
+        try:
+            meal_plan_idx = np.random.choice(available_indices, p=available_probs)
+            meal_plan = label_encoder.classes_[meal_plan_idx]
+        except Exception as e:
+            print(f"Random choice failed: {e}. Defaulting to Balanced Diet.")
+            meal_plan = 'Balanced Diet'
 
     noise_factor = 0.05
     calories = float(calories[0][0]) * (1 + np.random.uniform(-noise_factor, noise_factor))
@@ -378,18 +433,17 @@ def make_varied_recommendations(patient_data, temperature=0.8):
     carbs = float(carbs[0][0]) * (1 + np.random.uniform(-noise_factor, noise_factor))
     fats = float(fats[0][0]) * (1 + np.random.uniform(-noise_factor, noise_factor))
 
-    calories = max(1500, min(3500, calories))  
+    calories = max(1500, min(3500, calories))
     protein = max(50, min(200, protein))
     carbs = max(50, min(400, carbs))
     fats = max(20, min(150, fats))
-
-    if meal_plan not in meal_plans:
-        print(f"Warning: Predicted meal plan '{meal_plan}' not in meal_plans. Defaulting to Balanced Diet.")
+    
+    if meal_plan not in allowed_meal_plans:
+        print(f"Meal plan '{meal_plan}' not found in allowed plans. Falling back to Balanced Diet.")
         meal_plan = 'Balanced Diet'
 
-    
     filtered_meals = filter_meals(
-        meal_plans[meal_plan],
+        allowed_meal_plans[meal_plan],
         patient_data['Dietary_Habits'],
         patient_data['Allergies'],
         patient_data['Food_Aversions']
@@ -397,7 +451,7 @@ def make_varied_recommendations(patient_data, temperature=0.8):
 
     if not filtered_meals:
         print("No filtered meals matched preferences. Falling back to unfiltered list.")
-        detailed_plan = random.choice(meal_plans[meal_plan])
+        detailed_plan = random.choice(allowed_meal_plans[meal_plan])
     else:
         detailed_plan = random.choice(filtered_meals)
 
@@ -409,7 +463,6 @@ def make_varied_recommendations(patient_data, temperature=0.8):
         'recommendedFats': round(fats),
         'detailedMealPlan': detailed_plan
     }
-
 
 
 def save_to_mongodb(user_data, recommendations):
