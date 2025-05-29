@@ -18,6 +18,7 @@
 * [🔍 Overview](#-overview)
 * [✨ Key Functionalities](#-key-functionalities)
 * [🧠 Machine Learning Model](#-machine-learning-model)
+* [📊 Architecture Diagram](#-architecture-diagram)
 * [📂 File Structure](#-file-structure)
 * [🧰 Tech Stack](#-tech-stack)
 * [🛠️ Prerequisites](#️-prerequisites)
@@ -63,6 +64,15 @@ The predictive system leverages a **multi-output feedforward neural network** wi
 
 * 📊 Nutrient Goals: Calories, Protein, Carbs, Fats
 * 🍽️ Meal Plan Category: Breakfast, Lunch, Dinner, Snacks
+
+---
+
+### 📊 Architecture Diagram
+
+Below is the architecture diagram of the multi-output neural network used in the system. It showcases shared layers, dedicated branches for macro-nutrient regression and meal category classification, and the use of Gaussian noise layers for variability.
+
+![Neural_Network Architecture](https://github.com/user-attachments/assets/ccd0e268-24ac-43c5-ad2b-7cb2e9da3d57)
+
 
 ---
 
