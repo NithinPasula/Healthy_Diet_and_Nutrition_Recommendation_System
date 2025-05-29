@@ -1,6 +1,6 @@
 <h1 align="center">🍽️ Healthy Diet and Nutrition Recommendation System</h1>
 <p align="center">
- This repository contains the official implementation of the Personalized Nutrition & Diet Recommendation System, which delivers customized meal plans and nutritional advice powered by advanced machine learning, developed as a technical project for the recruitment process at <strong>JTP Co. LTD.</strong>
+ This repository contains the official implementation of the Healthy Diet and Nutrition Recommendation System, which delivers customized meal plans and nutritional advice powered by advanced machine learning, developed as a technical project for the recruitment process at <strong>JTP Co. LTD.</strong>
 </p>
 
 <p align="center">
