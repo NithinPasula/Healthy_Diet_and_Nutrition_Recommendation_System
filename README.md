@@ -1,4 +1,4 @@
-<h1 align="center">🍽️ Personalized Nutrition & Diet Recommendation System</h1>
+<h1 align="center">🍽️ Healthy Diet and Nutrition Recommendation System</h1>
 <p align="center">
  This repository contains the official implementation of the Personalized Nutrition & Diet Recommendation System, which delivers customized meal plans and nutritional advice powered by advanced machine learning, developed as a technical project for the recruitment process at <strong>JTP Co. LTD.</strong>
 </p>
@@ -149,7 +149,7 @@ Ensure the following tools are installed on your system:
 | **recommendations**        | Collection to store the generated recommendations |
 | **users**                  | Collection to store user input data               |
 
-**Images For Refference:**
+**Images for Reference:**
 ![Screenshot 2025-05-29 194743](https://github.com/user-attachments/assets/7311adef-54bf-44da-91d1-0126381cfc34)
 ---
 ![Screenshot 2025-05-29 194826](https://github.com/user-attachments/assets/67592f72-ebb4-4a2f-ae38-18ab4ddea841)
