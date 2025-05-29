@@ -15,16 +15,16 @@
 
 ## 📋 Table of Contents
 
-* [🔍 Overview](#overview)
-* [✨ Key Functionalities](#key-functionalities)
-* [🧠 Machine Learning Model](#machine-learning-model)
-* [📂 File Structure](#file-structure)
-* [🧰 Tech Stack](#tech-stack)
-* [🛠️ Prerequisites](#prerequisites)
-* [🚀 Installation Guide and User Manual](#installation-guide-and-user-manual)
-* [⚡ Quick Test Inputs](#quick-test-inputs)
-* [🖼️ UI Snapshots](#ui-snapshots)
-* [📨 Contact](#contact)
+* [🔍 Overview](#-overview)
+* [✨ Key Functionalities](#-key-functionalities)
+* [🧠 Machine Learning Model](#-machine-learning-model)
+* [📂 File Structure](#-file-structure)
+* [🧰 Tech Stack](#-tech-stack)
+* [🛠️ Prerequisites](#️-prerequisites)
+* [🚀 Installation Guide and User Manual](#-installation-guide-and-user-manual)
+* [⚡ Quick Test Inputs](#-quick-test-inputs)
+* [🖼️ UI Snapshots](#-ui-snapshots)
+* [📨 Contact](#-contact)
 
 ---
 
