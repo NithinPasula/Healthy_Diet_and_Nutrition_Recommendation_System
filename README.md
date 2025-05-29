@@ -133,11 +133,10 @@ Ensure the following tools are installed on your system:
    http://localhost:3000
    ```
    This URL will load the Healthy Diet and Nutrition Recommendation System interface.
+
 5. Database Access
 
-- To inspect the data, open **MongoDB Compass**.
-
-- Create a new connection string using the URI:
+- To examine the data, open **MongoDB Compass** and connect using the following URI:.
 
   ```bash
   mongodb://localhost:27018
