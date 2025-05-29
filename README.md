@@ -1,6 +1,6 @@
 <h1 align="center">🍽️ Healthy Diet and Nutrition Recommendation System</h1>
 <p align="center">
- This repository contains the official implementation of the Healthy Diet and Nutrition Recommendation System, which delivers customized meal plans and nutritional advice powered by advanced machine learning, developed as a technical project for the recruitment process at <strong>JTP Co. LTD.</strong>
+ This repository contains the official implementation of the Healthy Diet and Nutrition Recommendation System, a machine learning-based web application that provides personalized meal plans and nutritional advice. Developed as part of the recruitment process at <strong>JTP Co. LTD.</strong>
 </p>
 
 <p align="center">
@@ -31,7 +31,7 @@
 
 ## 🔍 Overview
 
-The **Healthy Diet and Nutrients Recommendations System** is a predictive dietary engine that:
+The **Healthy Diet and Nutrition Recommendation System** processes user inputs such as medical history, daily habits, and current nutrition profile to output personalized macro-nutrient goals and meal plans across all meals of the day.
 
 * Analyzes the user's **medical history**, **daily routine**, and **current diet**.
 * Outputs **personalized macro-nutrient goals** and **categorized meal plans** (breakfast to snacks).
@@ -136,7 +136,7 @@ Ensure the following tools are installed on your system:
 
 5. Database Access
 
-- To examine the data, open **MongoDB Compass** and connect using the following URI:.
+- To examine the data, open **MongoDB Compass** and connect using the following URI:
 
   ```bash
   mongodb://localhost:27018
