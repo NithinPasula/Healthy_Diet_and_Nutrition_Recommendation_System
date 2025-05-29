@@ -1,7 +1,6 @@
-
 <h1 align="center">🍽️ Personalized Nutrition & Diet Recommendation System</h1>
 <p align="center">
-  This repository hosts the official implementation of the Personalized Nutrition & Diet Recommendation System that provides customized meal plans and nutritional recommendations using advanced machine learning techniques.
+ This repository contains the official implementation of the Personalized Nutrition & Diet Recommendation System, which delivers customized meal plans and nutritional advice powered by advanced machine learning, developed as a technical project for the recruitment process at <strong>JTP Co. LTD.</strong>
 </p>
 
 <p align="center">
@@ -14,28 +13,60 @@
 
 ---
 
-## 📖 Overview
+## 📋 Table of Contents
 
-**Personalized Nutrition & Diet Recommendation System** is an intelligent dietary assistant that dynamically generates personalized meal plans and nutritional targets based on a user's physiological data, medical history, and lifestyle habits. 
-
-It leverages a **multi-output feedforward neural network** to deliver real-time, adaptive recommendations.
-
-> 👨‍💻 Developed by **Pasula Nithin**  
-> 📧 [22e55a0510@hitam.org](mailto:22e55a0510@hitam.org)
-
----
-
-## 🧠 Key Features
-
-- 🎯 Tailored meal plans & macro recommendations
-- 🧬 Machine learning–based prediction engine
-- ⚡ FastAPI backend integrated with TensorFlow
-- 🖥️ Responsive HTML5 + Bootstrap frontend
-- 🐳 Fully containerized using Docker
+* [🔍 Overview](#overview)
+* [✨ Key Functionalities](#key-functionalities)
+* [🧠 Machine Learning Model](#machine-learning-model)
+* [📂 File Structure](#file-structure)
+* [🧰 Tech Stack](#tech-stack)
+* [🛠️ Prerequisites](#prerequisites)
+* [🚀 Installation Guide and User Manual](#installation-guide-and-user-manual)
+* [⚡ Quick Test Inputs](#quick-test-inputs)
+* [🖼️ UI Snapshots](#ui-snapshots)
+* [📨 Contact](#contact)
 
 ---
 
-## 📁 Project Structure
+## 🔍 Overview
+
+The **Healthy Diet and Nutrients Recommendations System** is a predictive dietary engine that:
+
+* Analyzes the user's **medical history**, **daily routine**, and **current diet**.
+* Outputs **personalized macro-nutrient goals** and **categorized meal plans** (breakfast to snacks).
+* Adjusts recommendations in real-time for both known and **first-time users**.
+
+It is built to adapt to individuals with **chronic diseases**, **genetic risk factors**, or **dietary restrictions**, enabling inclusive and dynamic diet recommendations.
+
+---
+
+## ✨ Key Functionalities
+
+* 🔐 **Custom User Input Forms** – Collect detailed demographic, lifestyle, and dietary inputs.
+* 🧮 **Daily Nutritional Goals** – Suggest daily targets for calories, protein, fats, and carbohydrates.
+* 🍱 **Complete Meal Plans** – Generate tailored breakfast, lunch, dinner, and snack options.
+* 🔁 **Dynamicity & Adaptability** – Ensure variability in recommendations using Gaussian noise layers.
+* ⚠️ **Health Condition Support** – Address users with chronic conditions or allergies.
+* 📦 **Containerized Design** – Modular and deployable using Docker.
+
+---
+
+## 🧠 Machine Learning Model
+
+The predictive system leverages a **multi-output feedforward neural network** with dedicated heads for regression and classification tasks:
+
+* 🧱 **Shared Representation Layers**: Capture generalized health and lifestyle patterns.
+* 🌿 **Separate Output Branches**: Handle macro-nutrient predictions and meal plan classification.
+* 🌫️ **Gaussian Noise Layers**: Introduce small variability for better generalization across user profiles.
+
+**Model Outputs:**
+
+* 📊 Nutrient Goals: Calories, Protein, Carbs, Fats
+* 🍽️ Meal Plan Category: Breakfast, Lunch, Dinner, Snacks
+
+---
+
+## 📁 File Structure
 
 ```bash
 📦 Healthy_Diet_and_Nutrition_Recommendation_System
@@ -43,6 +74,19 @@ It leverages a **multi-output feedforward neural network** to deliver real-time,
 ├── Backend/          # FastAPI logic + ML model implementation
 ├── Database/         # Dataset, MongoDB config & backend DB routes
 ```
+
+
+---
+
+## 🧰 Tech Stack
+
+| Component      | Technology                                           |
+| -------------- | ---------------------------------------------------- |
+| **Frontend**   | HTML5, JS, Bootstrap                                 |
+| **Backend**    | Python, FastAPI/Flask, TensorFlow/Keras              |
+| **Modeling**   | Multi-output Neural Network                          |
+| **Deployment** | Docker                                               |
+| **Dataset**    | https://www.kaggle.com/datasets/ziya07/personalized-medical-diet-recommendations-dataset |
 
 ---
 
@@ -53,92 +97,141 @@ Ensure the following tools are installed on your system:
 - ✅ [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 - ✅ Docker Compose (bundled with Docker Desktop)
 - ✅ [Git](https://git-scm.com/)
+- ✅ [MongoDB Compass](https://www.mongodb.com/try/download/compass) – for database inspection
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Installation Guide and User Manual
 
-### 🔁 Step 1: Clone the Repository
+### 🔧 Installation Steps
 
-```bash
-git clone https://github.com/NithinPasula/Healthy_Diet_and_Nutrition_Recommendation_System.git
-cd Healthy_Diet_and_Nutrition_Recommendation_System
-```
+1. Ensure Docker Desktop is installed and running.
+2. Clone the repository:
 
-### 🛠 Step 2: Start the Application
+   ```bash
+   git clone https://github.com/NithinPasula/Healthy_Diet_and_Nutrition_Recommendation_System.git
+   cd Healthy_Diet_and_Nutrition_Recommendation_System
+   ```
+3. Build and run the containers:
 
-```bash
-docker compose up --build
-```
+   ```bash
+   docker compose up --build
+   ```
+4. Visit the application in your browser at:
 
-### 🌐 Step 3: Access the System
+   ```
+   http://localhost:3000
+   ```
+   This URL will load the Healthy Diet and Nutrition Recommendation System interface.
+5. Database Access
 
-Visit the following URL in your browser:
+- To inspect the data, open **MongoDB Compass**.
 
-```
-http://localhost:3000
-```
+- Create a new connection string using the URI:
 
----
-
-## 🧬 Machine Learning Model
-
-- **Model Type:** Multi-output Feedforward Neural Network  
-- **Architecture:** Shared hidden layers with branched outputs  
-- **Predicted Outputs:**  
-  - 🥗 Recommended Meal Category  
-  - 🔢 Macronutrient Targets: Calories, Carbs, Protein, Fats  
-- **Input Parameters:**  
-  - 20+ features: age, gender, health conditions, allergies, preferences, activity level, etc.
+  ```bash
+  mongodb://localhost:27018
 
 ---
 
-## 💻 Tech Stack
+| Name                       | Description                                       |
+| -------------------------- | ------------------------------------------------- |
+| **nutrition\_recommender** | Name of the database                              |
+| **recommendations**        | Collection to store the generated recommendations |
+| **users**                  | Collection to store user input data               |
 
-| Layer        | Technologies Used                            |
-|--------------|-----------------------------------------------|
-| 🎨 Frontend  | HTML5, JavaScript, Bootstrap 5                |
-| ⚙️ Backend   | Python, FastAPI                               |
-| 🧠 ML Engine | TensorFlow, Keras                             |
-| 🗃 Database   | MongoDB                                       |
-| 📦 DevOps    | Docker & Docker Compose                       |
+**Images For Refference:**
+![Screenshot 2025-05-29 194743](https://github.com/user-attachments/assets/7311adef-54bf-44da-91d1-0126381cfc34)
+---
+![Screenshot 2025-05-29 194826](https://github.com/user-attachments/assets/67592f72-ebb4-4a2f-ae38-18ab4ddea841)
+---
+![Screenshot 2025-05-29 194808](https://github.com/user-attachments/assets/5b2bed49-493b-42d8-8f56-fb3757ba236a)
+
 
 ---
 
-## 🗃 MongoDB Access
+## ⚡ Quick Test Inputs
 
-To view personalized diet recommendations directly from the MongoDB database, connect with the following URI:
+Use the following sample user input to quickly test the system:
 
-```
-mongodb://localhost:27018/
-```
-
-You can use tools like MongoDB Compass or Mongo shell to inspect the data.
+| Parameter                     | Value             |
+|------------------------------|-------------------|
+| Age                          | 32                |
+| Gender                       | Male              |
+| Height (cm)                  | 181               |
+| Weight (kg)                  | 95                |
+| Chronic Disease              | Diabetes          |
+| Blood Pressure (Systolic)    | 120               |
+| Blood Pressure (Diastolic)   | 80                |
+| Cholesterol Level            | 180               |
+| Blood Sugar Level            | 95                |
+| Genetic Risk Factor          | No                |
+| Allergies                    | None              |
+| Daily Steps                  | 8000              |
+| Exercise Frequency (days/week)| 3                |
+| Sleep Hours                  | 7                 |
+| Alcohol Consumption          | Yes               |
+| Smoking Habit                | No                |
+| Dietary Habits               | Regular           |
+| Current Caloric Intake       | 3000              |
+| Current Protein Intake (g)   | 20                |
+| Current Carbohydrate Intake (g) | 350           |
+| Current Fat Intake (g)       | 150               |
+| Preferred Cuisine            | Indian            |
+| Food Aversions               | None              |
 
 ---
 
-## 📌 Dataset Source
+### 🧑‍🏫 User Manual
 
-Dataset used for training is publicly available at:  
-🔗 [Kaggle - Personalized Medical Diet Dataset](https://www.kaggle.com/datasets/ziya07/personalized-medical-diet-recommendations-dataset)
+1. **Open Application**: Go to `http://localhost:3000`
+2. **Fill the Form**: Provide age, gender, health conditions, current diet, activity level, etc.
+3. **Submit**: Click the "Get Recommendation" button.
+4. **View Output**: The result page shows:
 
----
-
-## 📈 Project Status
-
-✅ MVP Complete  
-✅ ML Model Integrated  
-✅ Containerized for easy deployment  
-✅ Ready for production & future upgrades
+   * Recommended macro-nutrients (calories, protein, carbs, fats)
+   * A full day’s meal plan (Breakfast, Lunch, Dinner, Snacks)
 
 ---
 
-## 📬 Contact
+## 🖼️ UI Snapshots
 
-Have questions or want to collaborate?
+### 🔹 User Input Page
 
-**Pasula Nithin**  
-📧 [22e55a0510@hitam.org](mailto:22e55a0510@hitam.org)  
-🔗 [GitHub Profile](https://github.com/NithinPasula)
+![User Input Page](https://github.com/user-attachments/assets/13e0f52b-b0ad-4eaf-8655-6d8b2e306433)
+
+---
+
+### 🔹 Prediction Result Page
+
+![Prediction Result 1](https://github.com/user-attachments/assets/1d2b8d91-be3e-4107-801c-3362cc524bd1)
+
+---
+
+![Prediction Result 2](https://github.com/user-attachments/assets/0d99412b-148b-41c7-81da-7c1fc8328fba)
+
+---
+
+![Prediction Result 3](https://github.com/user-attachments/assets/c9c2a52a-e620-4f4c-9020-b0d9297059dd)
+
+---
+
+### 🔹 View Past Recommendations
+
+![Past Recommendations 1](https://github.com/user-attachments/assets/0be2cb1b-c5db-4d86-b051-3f6bb4588286)
+
+---
+
+![Past Recommendations 2](https://github.com/user-attachments/assets/98e2e920-20a0-4c22-aa66-60ecb46d007f)
+
+---
+
+## 📨 Contact
+
+For suggestions or technical queries, please reach out to:
+
+**Developer:** Pasula Nithin <br>
+**Email:**
+[22e55a0510@hitam.org](mailto:22e55a0510@hitam.org)
 
 ---
