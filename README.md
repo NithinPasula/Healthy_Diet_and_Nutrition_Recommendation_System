@@ -127,6 +127,17 @@ Ensure the following tools are installed on your system:
    ```bash
    docker compose up --build
    ```
+   ⚠️ Important: After running the above command, please wait until:
+
+     The backend server starts
+     
+     MongoDB connects successfully
+     
+     The model loads
+     
+     The debugger pin is active
+   
+   Only after these are confirmed, open the application in your browser.
 4. Visit the application in your browser at:
 
    ```
@@ -140,14 +151,13 @@ Ensure the following tools are installed on your system:
 
   ```bash
   mongodb://localhost:27018
+  ```
 
----
-
-| Name                       | Description                                       |
-| -------------------------- | ------------------------------------------------- |
-| **nutrition\_recommender** | Name of the database                              |
-| **recommendations**        | Collection to store the generated recommendations |
-| **users**                  | Collection to store user input data               |
+ | Name                       | Description                                       |
+ | -------------------------- | ------------------------------------------------- |
+ | **nutrition\_recommender** | Name of the database                              |
+ | **recommendations**        | Collection to store the generated recommendations |
+ | **users**                  | Collection to store user input data               |
 
 **Images for Reference:**
 ![Screenshot 2025-05-29 194743](https://github.com/user-attachments/assets/7311adef-54bf-44da-91d1-0126381cfc34)
